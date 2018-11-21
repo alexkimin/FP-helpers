@@ -1,9 +1,12 @@
-import { identity, nothing, isFunction } from './common';
+import { identity, nothing } from './common';
+import { isFunction } from './validation';
+import { apply } from './application';
+import { pipe } from './composition';
 
-export const ifElse = (predicate, onTrue = identity, onFalse = identity) => arg => {
-  return isFunction(predicate, onTrue, onFalse)
-    ? predicate(arg)
-        ? onTrue(arg)
-        : onFalse(arg)
-    : nothing;
+export const ifElse = (predicate, onTrue = identity, onFalse = identity) => (...args) => {
+  return isFunction(predicate)
+    ? predicate(...args)
+        ? Array.isArray(onTrue) ? apply(pipe, onTrue)(...args) : onTrue(...args)
+        : Array.isArray(onFalse) ? apply(pipe, onFalse)(...args) : onFalse(...args)
+    : nothing(...args);
 };
