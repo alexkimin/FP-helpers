@@ -1,6 +1,6 @@
 import {
   identity,
-  isFunction,
+  nothing,
 } from '../common';
 
 describe('common functions', () => {
@@ -11,13 +11,9 @@ describe('common functions', () => {
     });
   });
 
-  describe('isFunction', () => {
-    test('should return true if all arg is a function type', () => {
-      expect(isFunction(() => {})).toBe(true);
-      expect(isFunction(() => {}, () => {}, () => {})).toBe(true);
-    });
-    test('should return false if any arg is not a function type', () => {
-      expect(isFunction(() => {}, () => {}, 'hello', () => {})).toBe(false);
+  describe('nothing', () => {
+    test('should return undefined value', () => {
+      expect(nothing('hello')).toBe(undefined);
     });
   });
 
