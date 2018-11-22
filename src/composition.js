@@ -1,7 +1,9 @@
 import { identity } from './common';
 
-// Compose Combinator
+// Combinator
 const B = f => g => x => f(g(x));
+const C = f => g => x => g(f(x));
+const K = x => y => x;
 
 // left to right
 export const pipe = (...fns) => fns.reduce((prevFn, nextFn) => {
@@ -13,5 +15,8 @@ export const pipeA = (...fns) => (...args) =>
 
 // right to left
 export const compose = (...fns) => fns.reduceRight((lastFn, prevFn) => {
-  return (...args) => B(prevFn)(lastFn)(...args);
+  return (...args) => C(lastFn)(prevFn)(...args);
 }, identity);
+
+export const composeA = (...fns) => (...args) =>
+  fns.reduceRight((chain, func) => chain.then(func), Promise.resolve(...args));

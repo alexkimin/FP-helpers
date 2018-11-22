@@ -1,7 +1,8 @@
 import {
   pipe,
   pipeA,
-  compose
+  compose,
+  composeA
 } from '../composition';
 
 describe('composition functions', () => {
@@ -40,6 +41,24 @@ describe('composition functions', () => {
         n => n * 3,
         n => n.toString(),
       )(1)).toBe(6);
+    });
+  });
+  describe('composeA', () => {
+    test('should return right to left composed async/await(or promise) function', async () => {
+      const result = await composeA(
+        n => n.toString(),
+        async (n) => await n * 2,
+        async (n) => {
+          const result = await new Promise(resolve => setTimeout(() => {
+            return resolve(n * 2);
+          }, 200));
+          return result;
+        },
+        (n) => new Promise(resolve => setTimeout(() => {
+          return resolve(n * 2);
+        }, 200)),
+      )(1);
+      expect(result).toBe('8');
     });
   });
 });
