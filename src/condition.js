@@ -10,3 +10,13 @@ export const ifElse = (predicate, onTrue = identity, onFalse = identity) => (...
         : Array.isArray(onFalse) ? apply(pipe, onFalse)(...args) : onFalse(...args)
     : nothing(...args);
 };
+
+export const and = (a, b) => a && b;
+
+export const or = (a, b) => a || b;
+
+export const not = a => !a;
+
+// export const allTrue
+
+// export const anyTrue
