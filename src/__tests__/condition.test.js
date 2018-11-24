@@ -1,5 +1,10 @@
 import {
   ifElse,
+  and,
+  or,
+  not,
+  allTrue,
+  anyTrue,
 } from '../condition';
 
 describe('condition functions', () => {
@@ -18,6 +23,32 @@ describe('condition functions', () => {
         [n => n * 2, n => n * 2],
         [n => n * 0],
       )(1)).toBe(4);
+    });
+  });
+
+  describe('Logical operators', () => {
+    test('and', () => {
+      expect(and(true, true)).toBe(true);
+      expect(and(true, false)).toBe(false);
+    });
+    test('or', () => {
+      expect(or(true, false)).toBe(true);
+    });
+    test('not', () => {
+      expect(not(true)).toBe(false);
+    });
+  });
+
+  describe('allTrue', () => {
+    test('should work as expected', () => {
+      expect(allTrue(true, () => true)).toBe(true);
+      expect(allTrue(true, () => false)).toBe(false);
+    });
+  });
+  describe('anyTrue', () => {
+    test('should work as expected', () => {
+      expect(anyTrue(false, () => true)).toBe(true);
+      expect(anyTrue(false, () => false)).toBe(false);
     });
   });
 
