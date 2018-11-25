@@ -1,11 +1,25 @@
 # my_utilities
 
-Utility helper functions that I used when the project doesn't have lodash, ramda or recompose.
+Utility helper functions that I used when the project doesn't have underscore, lodash, ramda or recompose.
 
 ### Why?
 
-* The functions are point-free and curried, so easy to use for composed operations.
+* The functions are point-free and curried, so easy to be used for composed operations.
+  ```javascript
+    map(data, iteratee)
+
+    pipe(
+      map(iteratee1),
+      map(iteratee2),
+      ifElse(predicate, onTrue, onFalse),
+      ... and more
+    )(data)
+  ```
 * The functions provides more polymorphism, can be used for more data types (e.g. works for object and iterables).
+  ```javascript
+    map(data: Object | Array | Map | Set | String, iteratee: Function)
+  ```
+* faster lazy evaluation.
 
 ## List of functions
 
@@ -39,6 +53,8 @@ Utility helper functions that I used when the project doesn't have lodash, ramda
   - each
   - map
   - filter
+  - reduce
+  - reduceRight
 * condition
   - ifElse
   - and
