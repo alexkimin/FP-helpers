@@ -15,11 +15,10 @@ Utility helper functions that I used when the project doesn't have underscore, l
       ... and more
     )(data)
   ```
-* The functions provides more polymorphism, can be used for more data types (e.g. works for object and iterables).
+* The functions provides more polymorphism, can be used for more data types.
   ```javascript
-    map(data: Object | Array | Map | Set | String, iteratee: Function)
+    map(data: Object | Iterables | ArrayLike, iteratee: Function)
   ```
-* faster lazy evaluation.
 
 ## List of functions
 
