@@ -1,6 +1,7 @@
 import {
   curry,
   curryR,
+  curryRR,
 } from '../curry';
 
 describe('curry functions', () => {
@@ -28,6 +29,16 @@ describe('curry functions', () => {
     test('should work as expected', () => {
       const addAndMult = (a, b, c) => a * b + c;
       const curried = curryR(addAndMult);
+      expect(curried(1, 2, 3)).toBe(5);
+      expect(curried(1, 2)(3)).toBe(5);
+      expect(curried(1)(2, 3)).toBe(7);
+      expect(curried(1)(2)(3)).toBe(7);
+    });
+  });
+  describe('curryRR', () => {
+    test('should work as expected', () => {
+      const addAndMult = (a, b, c) => a * b + c;
+      const curried = curryRR(addAndMult);
       expect(curried(1, 2, 3)).toBe(7);
       expect(curried(1, 2)(3)).toBe(7);
       expect(curried(1)(2, 3)).toBe(7);

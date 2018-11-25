@@ -1,6 +1,6 @@
-import { isIterable } from './validation';
+import { curryR } from './curry';
 
-export const each = (data, iteratee) => {
+export const each = curryR((data, iteratee) => {
   if (typeof data.forEach === 'function') {
     data.forEach(iteratee);
   } else {
@@ -9,4 +9,11 @@ export const each = (data, iteratee) => {
     }
   }
   return data;
-}
+});
+
+export const map = curryR((list, iteratee) => {
+  const newList = []
+  each(list, (value) => newList.push(iteratee(value)))
+  return newList;
+});
+
