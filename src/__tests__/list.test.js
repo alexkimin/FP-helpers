@@ -3,7 +3,6 @@ import {
 } from '../list';
 
 describe('list functions', () => {
-
   describe('flatten', () => {
     test('should return flattened array width 1 depth', () => {
       expect(flatten([1, [2]])).toEqual([1, 2]);
@@ -13,5 +12,4 @@ describe('list functions', () => {
       expect(flatten([1, [2], [[3]]], 2)).toEqual([1, 2, 3]);
     });
   });
-
 });

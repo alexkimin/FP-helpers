@@ -8,7 +8,6 @@ import {
 } from '../composition';
 
 describe('composition functions', () => {
-
   const fns1 = [
     n => n * 2,
     n => n * 3,
@@ -16,16 +15,12 @@ describe('composition functions', () => {
   ];
 
   const fns2 = [
-    async (n) => await n * 2,
+    async n => await n * 2,
     async (n) => {
-      const result = await new Promise(resolve => setTimeout(() => {
-        return resolve(n * 2);
-      }, 200));
+      const result = await new Promise(resolve => setTimeout(() => resolve(n * 2), 200));
       return result;
     },
-    (n) => new Promise(resolve => setTimeout(() => {
-      return resolve(n * 2);
-    }, 200)),
+    n => new Promise(resolve => setTimeout(() => resolve(n * 2), 200)),
   ];
 
   describe('pipe', () => {

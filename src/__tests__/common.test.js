@@ -4,7 +4,6 @@ import {
 } from '../common';
 
 describe('common functions', () => {
-
   describe('identity', () => {
     test('should return identity value', () => {
       expect(identity('hello')).toBe('hello');
@@ -16,5 +15,4 @@ describe('common functions', () => {
       expect(nothing('hello')).toBe(undefined);
     });
   });
-
 });

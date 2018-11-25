@@ -4,7 +4,6 @@ import {
 } from '../application';
 
 describe('application functions', () => {
-
   describe('apply', () => {
     test('should return applied value', () => {
       expect(apply(Math.max, [1, 2])).toBe(2);
@@ -15,5 +14,4 @@ describe('application functions', () => {
       expect(call(Math.max, 1, 2)).toBe(2);
     });
   });
-
 });

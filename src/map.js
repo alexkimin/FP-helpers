@@ -1,32 +1,26 @@
 import { curryR } from './curry';
 
-export const each = curryR((data, iteratee) => {
-  if (typeof data.forEach === 'function') {
-    data.forEach(iteratee);
-  } else {
-    for (let key in data) {
-      data.hasOwnProperty(key) && iteratee(data[key], key, data);
-    }
-  }
-  return data;
-});
+export const each = curryR((data, iteratee) =>
+  typeof data.forEach === 'function'
+    ? data.forEach(iteratee)
+    : Object.keys(data).forEach(key => iteratee(data[key], key, data)));
 
 export const map = curryR((list, iteratee) => {
   if (typeof list.map === 'function') {
     return list.map(iteratee);
   } else {
-    const newList = []
-    each(list, (value) => newList.push(iteratee(value)))
+    const newList = [];
+    each(list, value => newList.push(iteratee(value)));
     return newList;
   }
 });
 
-export const filter = curryR((list, predicator) => {
+export const filter = curryR((list, predicate) => {
   if (typeof list.filter === 'function') {
-    return list.filter(predicator);
+    return list.filter(predicate);
   } else {
-    const newList = []
-    each(list, (e) => predicator(e) && newList.push(e))
-    return newList
+    const newList = [];
+    each(list, e => predicate(e) && newList.push(e));
+    return newList;
   }
-})
+});

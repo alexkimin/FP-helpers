@@ -21,7 +21,7 @@ describe('curry functions', () => {
         curriedAdd(
           (n, k) => n + k + 2,
           (n, k) => n + k + 2,
-        )(3, 2)
+        )(3, 2),
       ).toBe(14);
     });
   });
@@ -45,5 +45,4 @@ describe('curry functions', () => {
       expect(curried(1)(2)(3)).toBe(7);
     });
   });
-
 });

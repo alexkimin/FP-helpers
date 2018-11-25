@@ -1,4 +1,4 @@
-import { onTrue, nothing } from './common';
+import { identity, nothing } from './common';
 import { isFunction } from './validation';
 import { apply } from './application';
 import { pipe } from './composition';

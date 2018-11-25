@@ -5,7 +5,6 @@ import {
 } from '../validation';
 
 describe('valdation functions', () => {
-
   describe('isFunction', () => {
     test('should return true if all arg is a function type', () => {
       expect(isFunction(() => {})).toBe(true);
@@ -40,5 +39,4 @@ describe('valdation functions', () => {
       expect(isPromise({})).toBe(false);
     });
   });
-
 });

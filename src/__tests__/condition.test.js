@@ -8,7 +8,6 @@ import {
 } from '../condition';
 
 describe('condition functions', () => {
-
   describe('ifElse', () => {
     test('should return true onTure case if the predicate is ture', () => {
       expect(ifElse(
@@ -51,5 +50,4 @@ describe('condition functions', () => {
       expect(anyTrue(false, () => false)).toBe(false);
     });
   });
-
 });
