@@ -13,6 +13,16 @@ describe('curry functions', () => {
       expect(curriedAdd(1)(2, 3)).toBe(6);
       expect(curriedAdd(1)(2)(3)).toBe(6);
     });
+    test('should work as expected', () => {
+      const add = (a, b) => (...c) => a(...c) + b(...c);
+      const curriedAdd = curry(add);
+      expect(
+        curriedAdd(
+          (n, k) => n + k + 2,
+          (n, k) => n + k + 2,
+        )(3, 2)
+      ).toBe(14);
+    });
   });
   describe('curryR', () => {
     test('should work as expected', () => {

@@ -1,10 +1,10 @@
-import { identity, nothing } from './common';
+import { onTrue, nothing } from './common';
 import { isFunction } from './validation';
 import { apply } from './application';
 import { pipe } from './composition';
 import { curry } from './curry';
 
-export const ifElse = (predicate, onTrue = identity, onFalse = identity) =>
+export const ifElse = curry((predicate, onTrue, onFalse) =>
   (...args) =>
     isFunction(predicate)
       ? predicate(...args)
@@ -12,9 +12,9 @@ export const ifElse = (predicate, onTrue = identity, onFalse = identity) =>
           ? apply(pipe, onTrue)(...args)
           : onTrue(...args)
         : Array.isArray(onFalse)
-          ? apply(pipe, onFalse)(...args)
-          : onFalse(...args)
-      : nothing();
+          ? apply(pipe, onFalse || identity)(...args)
+          : onFalse ? onFalse(...args) : onTrue(...args)
+      : nothing());
 
 export const and = (a, b) => a && b;
 
