@@ -20,6 +20,30 @@ export const each = curryR((data, iteratee) => {
   return data;
 });
 
+export const eachR = curryR((data, iteratee) => {
+  if (Array.isArray(data)) {
+    data.reverse().forEach(iteratee);
+    return data;
+  } else if (data instanceof Map) {
+    Array.from(data).reverse().forEach(keyvalue => {
+      iteratee(keyvalue[1], keyvalue[0], data);
+    });
+    return data;
+  } else if (isIterable(data)) {
+    for(const val of Array.from(data).reverse()) {
+      iteratee(val, null, data);
+    }
+    return data;
+  } else if (isArrayLike(data)) {
+    Array.from(data).reverse().forEach(iteratee);
+    return data;
+  } else if (isObject(data)) {
+    Object.keys(data).reverse().forEach(key => iteratee(data[key], key, data));
+    return data;
+  }
+  return data;
+});
+
 export const map = curryR((list, iteratee) => {
   if (typeof list.map === 'function') {
     return list.map(iteratee);

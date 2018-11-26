@@ -1,5 +1,6 @@
 import {
   each,
+  eachR,
   map,
   filter,
   reduce,
@@ -48,6 +49,51 @@ describe('mapper functions', () => {
         },
         v => sideEffect.push(v * 2));
       expect(sideEffect).toEqual([10, 12]);
+    });
+  });
+
+  describe('eachR', () => {
+    let sideEffect;
+
+    beforeEach(() => {
+      sideEffect = [];
+    });
+
+    test('with array', () => {
+      eachR([1, 2], v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with object', () => {
+      eachR({ a: 1, b: 2 }, v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with Map', () => {
+      const data = new Map();
+      data.set('a', 1);
+      data.set('b', 2);
+      eachR(data, v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with Set', () => {
+      const data = new Set();
+      data.add(1);
+      data.add(2);
+      eachR(data, v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with string', () => {
+      eachR('12', v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with arrayLike', () => {
+      eachR(
+        {
+          0: 5,
+          1: 6,
+          length: 2,
+        },
+        v => sideEffect.push(v * 2));
+      expect(sideEffect).toEqual([12, 10]);
     });
   });
 
