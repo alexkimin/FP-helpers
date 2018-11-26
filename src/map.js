@@ -1,5 +1,5 @@
 import { curryR } from './curry';
-import { isIterable, isArrayLike } from './validation';
+import { isIterable, isArrayLike, isObject } from './validation';
 
 export const each = curryR((data, iteratee) => {
   if (typeof data.forEach === 'function') {
@@ -13,8 +13,10 @@ export const each = curryR((data, iteratee) => {
   } else if (isArrayLike(data)) {
     Array.from(data).forEach(iteratee);
     return data;
+  } else if (isObject(data)) {
+    Object.keys(data).forEach(key => iteratee(data[key], key, data));
+    return data;
   }
-  Object.keys(data).forEach(key => iteratee(data[key], key, data));
   return data;
 });
 
@@ -38,8 +40,23 @@ export const filter = curryR((list, predicate) => {
   }
 });
 
-export const reduce = curryR((list, iteratee) => {
-  if (typeof list.reduce === 'function') {
-    return list.reduce(iteratee);
+export const reduce = curryR((data, iteratee, init) => {
+  if (typeof data.reduce === 'function') {
+    return data.reduce(iteratee, init);
+  } else if (isArrayLike(data)) {
+    const [first, ...rest] = Array.from(data);
+    let reduced = init;
+    const list = init === undefined ? rest : [first, ...rest];
+    each(list, (value, key) => {
+      reduced = iteratee(reduced, value, key);
+    });
+    return reduced;
+  } else if (isIterable(data) || isObject(data)) {
+    let reduced = init;
+    each(data, (value, key) => {
+      reduced = iteratee(reduced, value, key);
+    });
+    return reduced;
   }
+  return init;
 });

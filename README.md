@@ -19,6 +19,7 @@ Utility helper functions that I used when the project doesn't have underscore, l
   ```javascript
     map(data: Object | Iterables | ArrayLike, iteratee: Function)
   ```
+* personal practice
 
 ## List of functions
 
