@@ -2,20 +2,23 @@ import { curryR } from './curry';
 import { isIterable, isArrayLike, isObject } from './validation';
 
 export const each = curryR((data, iteratee) => {
-  if (typeof data.forEach === 'function') {
-    data.forEach(iteratee);
-    return data;
-  } else if (isIterable(data)) {
-    for(const val of data) {
-      iteratee(val, null, data);
-    }
-    return data;
-  } else if (isArrayLike(data)) {
-    Array.from(data).forEach(iteratee);
-    return data;
-  } else if (isObject(data)) {
-    Object.keys(data).forEach(key => iteratee(data[key], key, data));
-    return data;
+  switch (true) {
+    case typeof data.forEach === 'function':
+      data.forEach(iteratee);
+      break;
+    case isIterable(data):
+      for(const val of data) {
+        iteratee(val, null, data);
+      }
+      break;
+    case isArrayLike(data):
+      Array.from(data).forEach(iteratee);
+      break;
+    case isObject(data):
+      Object.keys(data).forEach(key => iteratee(data[key], key, data));
+      break;
+    default:
+      break;
   }
   return data;
 });
@@ -78,6 +81,29 @@ export const reduce = curryR((data, iteratee, init) => {
   } else if (isIterable(data) || isObject(data)) {
     let reduced = init;
     each(data, (value, key) => {
+      reduced = iteratee(reduced, value, key);
+    });
+    return reduced;
+  }
+  return init;
+});
+
+export const reduceR = curryR((data, iteratee, init) => {
+  if (typeof data.reduce === 'function') {
+    return data.reduceRight(iteratee, init);
+  } else if (isArrayLike(data)) {
+    const original = Array.from(data);
+    const [last] = original.slice(-1);
+    const rest = original.slice(0, -1);
+    let reduced = init;
+    const list = init === undefined ? rest : [...rest, last];
+    eachR(list, (value, key) => {
+      reduced = iteratee(reduced, value, key);
+    });
+    return reduced;
+  } else if (isIterable(data) || isObject(data)) {
+    let reduced = init;
+    eachR(data, (value, key) => {
       reduced = iteratee(reduced, value, key);
     });
     return reduced;

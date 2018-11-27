@@ -1,6 +1,6 @@
 # my_utilities
 
-Utility helper functions that I used when the project doesn't have underscore, lodash, ramda or recompose.
+Utility helper functions that I used when the project doesn't have underscore, lodash or ramda.
 
 ### Why?
 
@@ -10,8 +10,9 @@ Utility helper functions that I used when the project doesn't have underscore, l
 
     pipe(
       map(iteratee1),
-      map(iteratee2),
+      filter(iteratee2),
       ifElse(predicate, onTrue, onFalse),
+      reduce(iteratee3)
       ... and more
     )(data)
   ```
@@ -51,10 +52,11 @@ Utility helper functions that I used when the project doesn't have underscore, l
     - compose with async/await, same as composeP
 * map
   - each
+  - eachR
   - map
   - filter
   - reduce
-  - reduceRight
+  - reduceR
 * condition
   - ifElse
   - and
