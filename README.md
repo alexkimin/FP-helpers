@@ -1,32 +1,53 @@
-# my_utilities
+# FP-helpers
 
-Utility helper functions that I used when the project doesn't have underscore, lodash or ramda.
+This repo is personal implementations and unit testings of functional programming style functions for studying purpose and some note. There are already brilliant libraries like [Lodash](https://lodash.com/) or [Ramda](https://ramdajs.com/). Personally, I highly recommend exploring the functional programming paradigm for your project or for fun.
 
 ### Why?
 
-* The functions are point-free and curried, so easy to be used for composed operations.
-  ```javascript
-    map(data, iteratee)
+* why not?
 
-    pipe(
+### How to use
+
+* Focus on functions, composition, and types.
+
+* Functions are just like Lego blocks, they can be combined and reusable.
+
+* All functions in this repo(or existing libs) are point-free and curried, so easy to use for composition.
+  ```javascript
+    Building a piped operation or stream.
+
+    const operationA = pipe(
       map(iteratee1),
       filter(iteratee2),
+    )
+
+    const operationB = pipe(
       ifElse(predicate, onTrue, onFalse),
       reduce(iteratee3)
-      ... and more
-    )(data)
+    )
+
+    const whatIWillDo = pipe(
+      operationA,
+      operationB
+    )
+
+    whatIWillDo(data)
   ```
-* The functions provides more polymorphism, can be used for more data types.
+* The functions accepts more types than default methods.
+
   ```javascript
-    map(data: Object | Iterables | ArrayLike, iteratee: Function)
+    Array.prototype.map(iteratee: Function)
+    * Only Array
+
+    map(data: Functor, iteratee: Function)
+    * {}, Array, Map, Function, Promise
   ```
-* personal practice
 
 ## List of functions
 
 * common
   - identity
-  - nothing
+  - noop
 * curry
   - curry
     - reculsive curry, no matter the N of params
