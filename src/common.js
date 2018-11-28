@@ -1,4 +1,7 @@
-// base
-export const identity = arg => arg;
+import { I, K } from './combinator';
 
-export const nothing = () => {};
+// identity :: a -> a
+export const identity = I;
+
+// noop :: ... -> undefined
+export const noop = K(undefined);
