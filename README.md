@@ -16,31 +16,33 @@ This repo is personal implementations and unit testings of functional programmin
   ```javascript
     Building a piped operation or stream.
 
-    const operationA = pipe(
-      map(iteratee1),
-      filter(iteratee2),
+    const filterAvaliableMenu = pipe(
+      map(iteratee),
+      filter(iteratee)
     )
 
-    const operationB = pipe(
+    const getMyFavorite = pipe(
       ifElse(predicate, onTrue, onFalse),
-      reduce(iteratee3)
+      reduce(iteratee)
     )
 
-    const whatIWillDo = pipe(
-      operationA,
-      operationB
+    const selectDinnerOfToday = pipe(
+      filterAvaliableMenu,
+      getMyFavorite
     )
 
-    whatIWillDo(data)
+    selectDinnerOfToday(options)
   ```
 * The functions accepts more types than default methods.
 
   ```javascript
+  * Only Array
+
     Array.prototype.map(iteratee: Function)
-    * Only Array
+
+  * {}, Array, Map, Function, Promise
 
     map(data: Functor, iteratee: Function)
-    * {}, Array, Map, Function, Promise
   ```
 
 ## List of functions
