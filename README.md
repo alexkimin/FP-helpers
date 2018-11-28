@@ -33,7 +33,7 @@ This repo is personal implementations and unit testings of functional programmin
 
     selectDinnerOfToday(options)
   ```
-* The functions accepts more types than default methods.
+* The functions accepts more types than default methods, can do more things.
 
   ```javascript
   * Only Array
