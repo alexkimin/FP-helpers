@@ -1,11 +1,25 @@
-// types
 export const isString = arg => typeof arg === 'string';
 
+// {}, [], Map, Set, String, Number ...
 export const isObject = arg => typeof arg === 'object';
 
-export const isFunction = (...arg) => arg.every(fn => typeof fn === 'function');
+export const isArray = arg => Array.isArray(arg);
 
+// Function, Promise
+export const isFunction = fn => typeof fn === 'function';
+
+// Array, Map, Set, Generator object, String
 export const isIterable = arg => Symbol.iterator in Object(arg);
+
+export const isMap = arg => arg instanceof Map;
+
+export const isSet = arg => arg instanceof Set;
+
+// [], {}, Map, Promise, Function
+export const isFunctor = arg => {
+  if (!arg) return false;
+  return !isSet(arg) && (isObject(arg) || isFunction(arg));
+};
 
 export const isArrayLike = (arg) => {
   if (!arg) return false;
