@@ -40,14 +40,14 @@ describe('condition functions', () => {
 
   describe('allTrue', () => {
     test('should work as expected', () => {
-      expect(allTrue(true, () => true)).toBe(true);
-      expect(allTrue(true, () => false)).toBe(false);
+      expect(allTrue(true, s => !!s)('hello')).toBe(true);
+      expect(allTrue(true, () => false)('hello')).toBe(false);
     });
   });
   describe('anyTrue', () => {
     test('should work as expected', () => {
-      expect(anyTrue(false, () => true)).toBe(true);
-      expect(anyTrue(false, () => false)).toBe(false);
+      expect(anyTrue(false, s => !!s)('hello')).toBe(true);
+      expect(anyTrue(false, () => false)('hello')).toBe(false);
     });
   });
 });

@@ -1,6 +1,6 @@
 import {
   identity,
-  nothing,
+  noop,
 } from '../common';
 
 describe('common functions', () => {
@@ -10,9 +10,9 @@ describe('common functions', () => {
     });
   });
 
-  describe('nothing', () => {
+  describe('noop', () => {
     test('should return undefined value', () => {
-      expect(nothing('hello')).toBe(undefined);
+      expect(noop('hello')).toBe(undefined);
     });
   });
 });
