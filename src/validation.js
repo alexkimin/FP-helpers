@@ -15,7 +15,8 @@ export const isMap = arg => arg instanceof Map;
 
 export const isSet = arg => arg instanceof Set;
 
-// [], {}, Map, Promise, Function
+// [], {}, Map, Promise, Function, ArrayLike
+// functors must preserve identity morphisms and composition of morphisms.
 export const isFunctor = arg => {
   if (!arg) return false;
   return !isSet(arg) && (isObject(arg) || isFunction(arg));

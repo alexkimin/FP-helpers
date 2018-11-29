@@ -10,7 +10,7 @@ This repo is personal implementations and unit testings of functional programmin
 
 * Focus on functions, composition, and types.
 
-* Functions are just like Lego blocks, they can be combined and reusable.
+* Functions are just like Lego blocks, they can be composed and reusable. The major interest of functional programming is achieving high-level abstraction code through composing small and small functions.
 
 * All functions in this repo(or existing libs) are point-free and curried, so easy to use for composition.
   ```javascript
@@ -47,6 +47,8 @@ This repo is personal implementations and unit testings of functional programmin
 
 ## List of functions
 
+under construction...
+
 * common
   - identity
   - noop
@@ -62,13 +64,13 @@ This repo is personal implementations and unit testings of functional programmin
   - call
 * composition
   - pipe
-    - B-combinator: left to right
+    - left to right
   - pipeP
     - pipe with promise
   - pipeA
     - pipe with async/await, same as pipeP
   - compose
-    - C-combinator: right to left
+    - right to left
   - composeP
     - compose with promise
   - composeA
