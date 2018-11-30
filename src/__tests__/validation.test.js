@@ -27,7 +27,13 @@ describe('valdation functions', () => {
       expect(isIterable(gen)).toBe(false);
     });
     test('should return true', () => {
+      let arg;
+      (function(a, b) {
+        arg = arguments;
+        return a + b;
+      })(1, 2)
       expect(isIterable([])).toBe(true);
+      expect(isIterable(arg)).toBe(true);
       expect(isIterable(new Map())).toBe(true);
       expect(isIterable(new Set())).toBe(true);
       expect(isIterable('hello')).toBe(true);
@@ -60,9 +66,16 @@ describe('valdation functions', () => {
 
   describe('isArrayLike', () => {
     test('should return true', () => {
+      let arg;
+      (function(a, b) {
+        arg = arguments;
+        return a + b;
+      })(1, 2)
+      expect(isArrayLike(arg)).toBe(true);
       expect(isArrayLike({
         0: 1,
-        length: 1,
+        1: 2,
+        length: 2,
       })).toBe(true);
     });
     test('should return false', () => {
