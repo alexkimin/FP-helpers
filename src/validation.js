@@ -11,6 +11,9 @@ export const isFunction = fn => typeof fn === 'function';
 // Array, Map, Set, Generator object, String
 export const isIterable = arg => Symbol.iterator in Object(arg);
 
+export const isGenerator = fn => isFunction(fn)
+  && ['GeneratorFunction', 'AsyncGeneratorFunction'].includes(fn.constructor.name)
+
 export const isMap = arg => arg instanceof Map;
 
 export const isSet = arg => arg instanceof Set;

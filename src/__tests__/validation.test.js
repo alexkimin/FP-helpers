@@ -2,6 +2,7 @@ import {
   isIterable,
   isPromise,
   isFunctor,
+  isGenerator,
   isArrayLike,
 } from '../validation';
 
@@ -41,6 +42,19 @@ describe('valdation functions', () => {
     });
     test('should return false', () => {
       expect(isPromise({})).toBe(false);
+    });
+  });
+
+  describe('isGenerator', () => {
+    test('should return true', () => {
+      expect(isGenerator(function* () {})).toBe(true);
+    });
+    test('should return false', () => {
+      expect(isGenerator(function() {})).toBe(false);
+      expect(isGenerator({})).toBe(false);
+      expect(isGenerator('hello')).toBe(false);
+      expect(isGenerator(undefined)).toBe(false);
+      expect(isGenerator(null)).toBe(false);
     });
   });
 
