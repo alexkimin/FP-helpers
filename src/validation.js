@@ -8,7 +8,11 @@ export const isArray = arg => Array.isArray(arg);
 // Function, Promise
 export const isFunction = fn => typeof fn === 'function';
 
-// Array, Map, Set, Generator object, String
+/**
+ * True: Array, Map, Set, Generator object, String
+ * Iterable: The iterable is a interface that specifies that an object can be accessible
+ * if it implements a method who is key is [symbol.iterator]
+ */
 export const isIterable = arg => Symbol.iterator in Object(arg);
 
 export const isGenerator = fn => isFunction(fn)
