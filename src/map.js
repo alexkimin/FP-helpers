@@ -1,11 +1,12 @@
 import { curryR, curry, curry2 } from './curry';
+import { Iter } from './iter';
 import {
   isIterable,
   isArrayLike,
   isObject,
   isFunctor,
+  isUndefined,
 } from './validation';
-import { iterValues, iterEntries } from './iter';
 
 export const each = curryR((data, iteratee) => {
   switch (true) {
@@ -76,34 +77,16 @@ export const filter = curryR((list, predicate) => {
 
 // reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
 export const reduce = curry2((iteratee, acc, coll) => {
-  const collection = coll === undefined ? acc : coll;
-  const iter = iterValues(collection);
-  let reduced = coll === undefined ? iter.next().value : acc;
+  const collection = isUndefined(coll) ? acc : coll;
+  const iter = Iter.values(collection);
+  let reduced = isUndefined(coll) ? iter.next().value : acc;
   for(const value of iter) {
     reduced = iteratee(reduced, value);
   }
   return reduced;
 });
 
-export const reduceR = curryR((data, iteratee, init) => {
-  if (typeof data.reduce === 'function') {
-    return data.reduceRight(iteratee, init);
-  } else if (isArrayLike(data)) {
-    const original = Array.from(data);
-    const [last] = original.slice(-1);
-    const rest = original.slice(0, -1);
-    let reduced = init;
-    const list = init === undefined ? rest : original;
-    eachR(list, (value, key) => {
-      reduced = iteratee(reduced, value, key);
-    });
-    return reduced;
-  } else if (isIterable(data) || isObject(data)) {
-    let reduced = init;
-    eachR(data, (value, key) => {
-      reduced = iteratee(reduced, value, key);
-    });
-    return reduced;
-  }
-  return init;
-});
+// reduceR :: Collection c => ((a, b) -> b) -> b -> c a -> b
+// export const reduceR = curry2((iteratee, acc, coll) => {
+
+// });

@@ -1,10 +1,11 @@
 export const isString = arg => typeof arg === 'string';
+export const isNumber = arg => typeof arg === 'number';
+export const isUndefined = arg => arg === undefined;
+export const isNull = arg => arg === null;
 
 // {}, [], Map, Set, String, Number ...
 export const isObject = arg => typeof arg === 'object';
-
-export const isArray = arg => Array.isArray(arg);
-
+export const isArray = Array.isArray;
 // Function, Promise
 export const isFunction = fn => typeof fn === 'function';
 
@@ -14,12 +15,10 @@ export const isFunction = fn => typeof fn === 'function';
  * if it implements a method who is key is [symbol.iterator]
  */
 export const isIterable = arg => Symbol.iterator in Object(arg);
-
 export const isGenerator = fn => isFunction(fn)
   && ['GeneratorFunction', 'AsyncGeneratorFunction'].includes(fn.constructor.name)
 
 export const isMap = arg => arg instanceof Map;
-
 export const isSet = arg => arg instanceof Set;
 
 // [], {}, Map, Promise, Function, ArrayLike
