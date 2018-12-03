@@ -111,25 +111,25 @@ describe('mapper functions', () => {
       data.set('b', 2);
       expect(map(data, n => n * 2)).toEqual([2, 4]);
     });
-    test('with Set', () => {
-      const data = new Set();
-      data.add(1);
-      data.add(2);
-      expect(map(data, n => n * 2)).toEqual([2, 4]);
-    });
-    test('with string', () => {
-      expect(map('12', n => n * 2)).toEqual([2, 4]);
-    });
-    test('with arrayLike', () => {
-      expect(map(
-        {
-          0: 5,
-          1: 6,
-          length: 2,
-        },
-        n => n * 2,
-        )).toEqual([10, 12]);
-    });
+    // test('with Set', () => {
+    //   const data = new Set();
+    //   data.add(1);
+    //   data.add(2);
+    //   expect(map(data, n => n * 2)).toEqual([2, 4]);
+    // });
+    // test('with string', () => {
+    //   expect(map('12', n => n * 2)).toEqual([2, 4]);
+    // });
+    // test('with arrayLike', () => {
+    //   expect(map(
+    //     {
+    //       0: 5,
+    //       1: 6,
+    //       length: 2,
+    //     },
+    //     n => n * 2,
+    //     )).toEqual([10, 12]);
+    // });
   });
 
   describe('filter', () => {
@@ -168,53 +168,43 @@ describe('mapper functions', () => {
 
   describe('reduce', () => {
     test('with array', () => {
-      expect(reduce([1, 2], (a, c) => a + c, 1)).toBe(4);
+      expect(reduce((a, c) => a + c, [1, 2])).toBe(3);
     });
     test('with object', () => {
       expect(reduce(
-        { name: 1, gender: 2 },
-        (a, val, key) => {
-          if (key === 'name') return a + val;
-          return a;
-        },
+        (acc, cur) => acc + cur,
         0,
-      )).toBe(1);
+        { name: 1, gender: 2 }
+      )).toBe(3);
       expect(reduce(
-        { name: 1, gender: 2 },
-        (acc, val, key) => {
-          if (key === 'name') {
-            acc['checked'] = acc['checked'] ? ++acc['checked'] : 1;
-          }
+        (acc, val) => {
+          acc['checked'] = acc['checked'] ? ++acc['checked'] : 1;
           return acc;
         },
         {},
-      )).toEqual({ checked: 1 });
+        { name: 1, gender: 2 },
+      )).toEqual({ checked: 2 });
     });
     test('with Map', () => {
       const data = new Map();
       data.set('apple', 1);
       data.set('pineapple', 2);
-      expect(reduce(data, (acc, val, key) => acc + val, 0)).toBe(3);
+      expect(reduce((acc, val) => acc + val, data)).toBe(3);
     });
     test('with Set', () => {
-      const data = new Set();
-      data.add(1);
-      data.add(2);
-      expect(reduce(data, (acc, val, key) => acc + val, 0)).toBe(3);
-    });
-    test('with string', () => {
-      expect(reduce('12', (acc, val) => acc + val, '')).toBe('12');
+      const data = new Set([1,2]);
+      expect(reduce((acc, val) => acc + val, data)).toBe(3);
     });
     test('with arrayLike', () => {
+      let arg;
+      (function(a, b) {
+        arg = arguments;
+        return a + b;
+      })(1, 2)
       expect(reduce(
-        {
-          0: 5,
-          1: 5,
-          length: 2,
-        },
         (acc, val) => acc + val,
-        0
-        )).toBe(10);
+        arg,
+        )).toBe(3);
     });
   });
 
