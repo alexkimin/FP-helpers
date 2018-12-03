@@ -1,6 +1,6 @@
-import { curry } from './curry';
+import { curry2 } from './curry';
 
 // base
-export const apply = curry((fn, arg) => fn(...arg));
+export const apply = curry2((fn, arg) => fn(...arg));
 
-export const call = (fn, ...args) => fn.call(null, ...args);
+export const call = fn => (...args) => fn(...args);
