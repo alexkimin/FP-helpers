@@ -1,7 +1,5 @@
-import { I, K } from './combinator';
-
 // identity :: a -> a
-export const identity = I;
+export const identity = arg => arg;
 
 // noop :: ... -> undefined
-export const noop = K(undefined);
+export const noop = arg => {};

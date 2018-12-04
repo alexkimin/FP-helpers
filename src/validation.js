@@ -3,6 +3,7 @@ export const isNumber = arg => typeof arg === 'number';
 export const isBool = arg => typeof arg === 'boolean';
 export const isUndefined = arg => arg === undefined;
 export const isNull = arg => arg === null;
+export const isSymbol = arg => typeof arg === 'symbol';
 export const isNaN = n => isNaN(n);
 // {}, [], Map, Set, String, Number ...
 export const isObject = arg => typeof arg === 'object';
