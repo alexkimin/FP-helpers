@@ -1,8 +1,9 @@
 import { Iter } from './iter';
+import { curry2 } from './curry';
 
-export const eachL = function* (interatee, coll) {
-  for(const key of Iter.keys(coll)) yield interatee(coll[key], key, coll);
-};
+export const eachL = curry2(function* (interatee, coll) {
+  for(const value of Iter.values(coll)) yield interatee(value);
+});
 
 export const L = {
   each: eachL,

@@ -1,4 +1,6 @@
-import { curryR, curry2 } from './curry';
+import { curry, curryR, curry2 } from './curry';
+import { pipe } from './composition';
+import { takeAll } from './take';
 import { Iter } from './iter';
 import { L } from './lazy';
 import {
@@ -9,76 +11,11 @@ import {
   isUndefined,
 } from './validation';
 
-export const each = curry2((data, iteratee) => {
-
-  return data;
+// each :: Collection c => (a -> ...) -> c a -> c a
+export const each = curry2((iteratee, coll) => {
+  pipe(L.each(iteratee), takeAll)(coll);
+  return coll;
 });
-// export const each = curry2((data, iteratee) => {
-//   switch (true) {
-//     case typeof data.forEach === 'function':
-//       data.forEach(iteratee);
-//       break;
-//     case isIterable(data):
-//       for (const val of data) {
-//         iteratee(val, null, data);
-//       }
-//       break;
-//     case isArrayLike(data):
-//       Array.from(data).forEach(iteratee);
-//       break;
-//     case isObject(data):
-//       Object.keys(data).forEach(key => iteratee(data[key], key, data));
-//       break;
-//     default:
-//       break;
-//   }
-//   return data;
-// });
-
-// export const eachR = curryR((data, iteratee) => {
-//   if (Array.isArray(data)) {
-//     data.reverse().forEach(iteratee);
-//     return data;
-//   } else if (data instanceof Map) {
-//     Array.from(data).reverse().forEach((keyvalue) => {
-//       iteratee(keyvalue[1], keyvalue[0], data);
-//     });
-//     return data;
-//   } else if (isIterable(data)) {
-//     for (const val of Array.from(data).reverse()) {
-//       iteratee(val, null, data);
-//     }
-//     return data;
-//   } else if (isArrayLike(data)) {
-//     Array.from(data).reverse().forEach(iteratee);
-//     return data;
-//   } else if (isObject(data)) {
-//     Object.keys(data).reverse().forEach(key => iteratee(data[key], key, data));
-//     return data;
-//   }
-//   return data;
-// });
-
-// map :: Functor f => (a -> b) -> f a -> f b
-export const map = curryR((list, iteratee) => {
-  if (typeof list.map === 'function') {
-    return list.map(iteratee);
-  } else {
-    const newList = [];
-    isFunctor(list) && each(list, value => newList.push(iteratee(value)));
-    return newList;
-  }
-});
-
-// export const filter = curryR((list, predicate) => {
-//   if (typeof list.filter === 'function') {
-//     return list.filter(predicate);
-//   } else {
-//     const newList = [];
-//     each(list, e => predicate(e) && newList.push(e));
-//     return newList;
-//   }
-// });
 
 // reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
 export const reduce = curry2((iteratee, acc, coll) => {
