@@ -5,15 +5,15 @@ import {
   filter,
   reduce,
   reduceR,
-} from '../map';
+} from '../loop';
 
 describe('mapper functions', () => {
-  describe('each', () => {
-    let sideEffect;
+  // describe('each', () => {
+  //   let sideEffect;
 
-    beforeEach(() => {
-      sideEffect = [];
-    });
+  //   beforeEach(() => {
+  //     sideEffect = [];
+  //   });
 
   //   test('with array', () => {
   //     each([1, 2], v => sideEffect.push(v * 2));

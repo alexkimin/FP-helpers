@@ -1,5 +1,6 @@
 import { curryR, curry2 } from './curry';
 import { Iter } from './iter';
+import { L } from './lazy';
 import {
   isIterable,
   isArrayLike,
@@ -9,26 +10,30 @@ import {
 } from './validation';
 
 export const each = curry2((data, iteratee) => {
-  switch (true) {
-    case typeof data.forEach === 'function':
-      data.forEach(iteratee);
-      break;
-    case isIterable(data):
-      for (const val of data) {
-        iteratee(val, null, data);
-      }
-      break;
-    case isArrayLike(data):
-      Array.from(data).forEach(iteratee);
-      break;
-    case isObject(data):
-      Object.keys(data).forEach(key => iteratee(data[key], key, data));
-      break;
-    default:
-      break;
-  }
+
   return data;
 });
+// export const each = curry2((data, iteratee) => {
+//   switch (true) {
+//     case typeof data.forEach === 'function':
+//       data.forEach(iteratee);
+//       break;
+//     case isIterable(data):
+//       for (const val of data) {
+//         iteratee(val, null, data);
+//       }
+//       break;
+//     case isArrayLike(data):
+//       Array.from(data).forEach(iteratee);
+//       break;
+//     case isObject(data):
+//       Object.keys(data).forEach(key => iteratee(data[key], key, data));
+//       break;
+//     default:
+//       break;
+//   }
+//   return data;
+// });
 
 // export const eachR = curryR((data, iteratee) => {
 //   if (Array.isArray(data)) {
