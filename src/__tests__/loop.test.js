@@ -8,24 +8,23 @@ import {
 } from '../loop';
 
 describe('mapper functions', () => {
-  let testMap;
-  let testSet;
-  let testObj;
-  let arrLike;
-  let testArr;
-  beforeEach(() => {
-    testMap = new Map([['a', 1], ['b', 2]]);
-    testSet = new Set([1, 2]);
-    testObj = { name: 1, gender: 2 };
-    testArr = [1, 2];
-    (function (a, b) {
-      arrLike = arguments;
-      return a + b;
-    }(1, 2));
-  });
+  // let testMap;
+  // let testSet;
+  // let testObj;
+  // let arrLike;
+  // let testArr;
+  // beforeEach(() => {
+  //   testMap = new Map([['a', 1], ['b', 2]]);
+  //   testSet = new Set([1, 2]);
+  //   testObj = { name: 1, gender: 2 };
+  //   testArr = [1, 2];
+  //   (function (a, b) {
+  //     arrLike = arguments;
+  //     return a + b;
+  //   }(1, 2));
+  // });
   describe('each', () => {
     let sideEffect;
-
     beforeEach(() => {
       sideEffect = [];
     });
@@ -35,7 +34,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with object', () => {
-      each(v => sideEffect.push(v * 2), { a: 1, b: 2 });
+      each(v => sideEffect.push(v * 2), testObj);
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with Map', () => {
