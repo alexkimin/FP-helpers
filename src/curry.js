@@ -19,7 +19,7 @@ export const curryRR = (fn, arr = []) =>
       : curryR(fn, list)
   )([...args.reverse(), ...arr]);
 
-export const curry2 = fn => (...arg1) =>
-  arg1.length < 2
-    ? (...arg2) => fn(...arg1, ...arg2)
-    : fn(...arg1);
+export const curry2 = fn => (...a1) =>
+  a1.length < 2
+    ? (...a2) => fn(...a1, ...a2)
+    : fn(...a1);

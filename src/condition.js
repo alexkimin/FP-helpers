@@ -2,26 +2,20 @@ import { identity, noop } from './common';
 import { isFunction, isArray } from './validation';
 import { apply } from './application';
 import { pipe } from './composition';
-import { curry } from './curry';
+import { curry2 } from './curry';
 
-export const and = curry((a, b) => a && b);
-export const or = curry((a, b) => a || b);
+export const and = curry2((a, b) => a && b);
+export const or = curry2((a, b) => a || b);
 export const not = a => !a;
-export const equal = curry((a, b) => a === b);
+export const equal = curry2((a, b) => a === b);
 
-export const allTrue = (...args) => data => args.every(fn =>
-  isFunction(fn) ? !!fn(data) : !!fn);
-export const anyTrue = (...args) => data => args.some(fn =>
-  isFunction(fn) ? !!fn(data) : !!fn);
+export const allTrue = (...fns) => (...a) => fns.every(fn => isFunction(fn) ? !!fn(...a) : !!fn);
+export const anyTrue = (...fns) => (...a) => fns.some(fn => isFunction(fn) ? !!fn(...a) : !!fn);
 
-export const ifElse = curry((predicate, onTrue, onFalse) =>
-(...args) =>
-  isFunction(predicate)
-    ? predicate(...args)
-      ? isArray(onTrue)
-        ? apply(pipe, onTrue)(...args)
-        : onTrue(...args)
-      : isArray(onFalse)
-        ? apply(pipe, onFalse || identity)(...args)
-        : onFalse ? onFalse(...args) : onTrue(...args)
-    : noop());
+export const ifElse = curry2((predicate, onTrue, onFalse = identity) =>
+  (...a) =>
+    isFunction(predicate)
+      ? predicate(...a)
+        ? isArray(onTrue) ? apply(pipe, onTrue)(...a) : onTrue(...a)
+        : isArray(onFalse) ? apply(pipe, onFalse)(...a) : onFalse(...a)
+      : noop());

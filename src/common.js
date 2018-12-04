@@ -1,5 +1,5 @@
 // identity :: a -> a
-export const identity = arg => arg;
+export const identity = a => a;
 
-// noop :: ... -> undefined
-export const noop = arg => {};
+// noop :: a -> undefined
+export const noop = a => {};
