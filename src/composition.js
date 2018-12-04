@@ -1,9 +1,8 @@
 import { identity } from './common';
-import { B } from './combinator';
+import { reduce } from './loop';
 
-// left to right
-export const pipe = (...fns) => fns.reduce((prevFn, nextFn) =>
-  (...args) => B(nextFn)(prevFn)(...args), identity);
+// pipe :: (((a, b, ..., n) -> o), (o -> p), ..., (y -> z)) -> ((a, b, ..., n) -> z)
+export const pipe = (...fns) => reduce((f, g) => (...a) => g(f(...a)), fns);
 
 export const pipeP = (...fns) => (...args) =>
   fns.reduce((chain, func) => chain.then(func), Promise.resolve(...args));
@@ -11,9 +10,8 @@ export const pipeP = (...fns) => (...args) =>
 export const pipeA = (...fns) => (...args) =>
   fns.reduce(async (prevFn, nextFn) => nextFn(await prevFn), args);
 
-// right to left
-export const compose = (...fns) => fns.reduceRight((lastFn, prevFn) =>
-  (...args) => B(prevFn)(lastFn)(...args), identity);
+// compose :: ((y -> z), (x -> y), ..., (o -> p), ((a, b, ..., n) -> o)) -> ((a, b, ..., n) -> z)
+export const compose = (...fns) => reduce((f, g) => (...a) => g(f(...a)), fns.reverse());
 
 export const composeP = (...fns) => (...args) =>
   fns.reduceRight((chain, func) => chain.then(func), Promise.resolve(...args));
