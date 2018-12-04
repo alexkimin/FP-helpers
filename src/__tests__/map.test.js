@@ -48,7 +48,8 @@ describe('mapper functions', () => {
           1: 6,
           length: 2,
         },
-        v => sideEffect.push(v * 2));
+        v => sideEffect.push(v * 2),
+      );
       expect(sideEffect).toEqual([10, 12]);
     });
   });
@@ -93,7 +94,8 @@ describe('mapper functions', () => {
           1: 6,
           length: 2,
         },
-        v => sideEffect.push(v * 2));
+        v => sideEffect.push(v * 2),
+      );
       expect(sideEffect).toEqual([12, 10]);
     });
   });
@@ -162,7 +164,7 @@ describe('mapper functions', () => {
           length: 2,
         },
         n => n > 5,
-        )).toEqual([6]);
+      )).toEqual([6]);
     });
   });
 
@@ -174,11 +176,11 @@ describe('mapper functions', () => {
       expect(reduce(
         (acc, cur) => acc + cur,
         0,
-        { name: 1, gender: 2 }
+        { name: 1, gender: 2 },
       )).toBe(3);
       expect(reduce(
         (acc, val) => {
-          acc['checked'] = acc['checked'] ? ++acc['checked'] : 1;
+          acc.checked = acc.checked ? ++acc.checked : 1;
           return acc;
         },
         {},
@@ -186,25 +188,23 @@ describe('mapper functions', () => {
       )).toEqual({ checked: 2 });
     });
     test('with Map', () => {
-      const data = new Map();
-      data.set('apple', 1);
-      data.set('pineapple', 2);
-      expect(reduce((acc, val) => acc + val, data)).toBe(3);
+      const data = new Map([['apple', 1], ['pineapple', 2]]);
+      expect(reduce((acc, [key, value]) => acc + value, 0, data)).toBe(3);
     });
     test('with Set', () => {
-      const data = new Set([1,2]);
+      const data = new Set([1, 2]);
       expect(reduce((acc, val) => acc + val, data)).toBe(3);
     });
     test('with arrayLike', () => {
       let arg;
-      (function(a, b) {
+      (function (a, b) {
         arg = arguments;
         return a + b;
-      })(1, 2)
+      }(1, 2));
       expect(reduce(
         (acc, val) => acc + val,
         arg,
-        )).toBe(3);
+      )).toBe(3);
     });
   });
 });

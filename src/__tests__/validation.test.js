@@ -8,7 +8,7 @@ import {
 
 describe('valdation functions', () => {
   describe('isIterable', () => {
-    function* gen(){
+    function* gen() {
       yield* ['a', 'b', 'c'];
     }
     const generatorObject = gen();
@@ -28,10 +28,10 @@ describe('valdation functions', () => {
     });
     test('should return true', () => {
       let arg;
-      (function(a, b) {
+      (function (a, b) {
         arg = arguments;
         return a + b;
-      })(1, 2)
+      }(1, 2));
       expect(isIterable([])).toBe(true);
       expect(isIterable(arg)).toBe(true);
       expect(isIterable(new Map())).toBe(true);
@@ -56,7 +56,7 @@ describe('valdation functions', () => {
       expect(isGenerator(function* () {})).toBe(true);
     });
     test('should return false', () => {
-      expect(isGenerator(function() {})).toBe(false);
+      expect(isGenerator(() => {})).toBe(false);
       expect(isGenerator({})).toBe(false);
       expect(isGenerator('hello')).toBe(false);
       expect(isGenerator(undefined)).toBe(false);
@@ -67,10 +67,10 @@ describe('valdation functions', () => {
   describe('isArrayLike', () => {
     test('should return true', () => {
       let arg;
-      (function(a, b) {
+      (function (a, b) {
         arg = arguments;
         return a + b;
-      })(1, 2)
+      }(1, 2));
       expect(isArrayLike(arg)).toBe(true);
       expect(isArrayLike({
         0: 1,

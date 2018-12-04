@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest --config config/jest/jest.config.json",
+    "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix",
     "clean": "rm -rf ./.cache"
   },

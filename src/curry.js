@@ -21,5 +21,5 @@ export const curryRR = (fn, arr = []) =>
 
 export const curry2 = fn => (...arg1) =>
   arg1.length < 2
-    ?  (...arg2) => fn(...arg1, ...arg2)
+    ? (...arg2) => fn(...arg1, ...arg2)
     : fn(...arg1);

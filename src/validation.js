@@ -1,33 +1,17 @@
 export const isString = arg => typeof arg === 'string';
 export const isNumber = arg => typeof arg === 'number';
+export const isBool = arg => typeof arg === 'boolean';
 export const isUndefined = arg => arg === undefined;
 export const isNull = arg => arg === null;
-
+export const isNaN = n => isNaN(n);
 // {}, [], Map, Set, String, Number ...
 export const isObject = arg => typeof arg === 'object';
-export const isArray = Array.isArray;
+export const isArray = arg => Array.isArray(arg);
 // Function, Promise
 export const isFunction = fn => typeof fn === 'function';
-
-/**
- * True: Array, Map, Set, Generator object, String
- * Iterable: The iterable is a interface that specifies that an object can be accessible
- * if it implements a method who is key is [symbol.iterator]
- */
-export const isIterable = arg => Symbol.iterator in Object(arg);
-export const isGenerator = fn => isFunction(fn)
-  && ['GeneratorFunction', 'AsyncGeneratorFunction'].includes(fn.constructor.name)
-
+export const isPromise = p => p instanceof Promise;
 export const isMap = arg => arg instanceof Map;
 export const isSet = arg => arg instanceof Set;
-
-// [], {}, Map, Promise, Function, ArrayLike
-// functors must preserve identity morphisms and composition of morphisms.
-export const isFunctor = arg => {
-  if (!arg) return false;
-  return !isSet(arg) && (isObject(arg) || isFunction(arg));
-};
-
 export const isArrayLike = (arg) => {
   if (!arg) return false;
   if (Array.isArray(arg)) return true;
@@ -39,7 +23,21 @@ export const isArrayLike = (arg) => {
   return false;
 };
 
-export const isPromise = (promise) => {
-  if (!promise) return false;
-  return !!(promise.then && promise.catch);
+/**
+ * True: Array, Map, Set, Generator object, String
+ * Iterable: The iterable is a interface that specifies that an object can be accessible
+ * if it implements a method who is key is [symbol.iterator]
+ */
+// iterator[Symbol.iterator]() == iterator
+export const isIterable = arg => Symbol.iterator in Object(arg);
+export const isGenerator = fn => isFunction(fn)
+  && ['GeneratorFunction', 'AsyncGeneratorFunction'].includes(fn.constructor.name);
+
+// [], {}, Map, Promise, Function, ArrayLike
+// functors must preserve identity morphisms and composition of morphisms.
+export const isFunctor = (arg) => {
+  if (!arg) return false;
+  return !isSet(arg) && (isObject(arg) || isFunction(arg));
 };
+
+export const hasMethod = (arg, name) => typeof arg[name] === 'function';
