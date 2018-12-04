@@ -16,3 +16,5 @@ export const take = curry2((num, coll) => {
   }
   return result;
 });
+
+export const takeAll = take(Infinity);
