@@ -1,5 +1,6 @@
 /* eslint no-undef: 0 */
 import {
+  isPlainObject,
   isIterable,
   isPromise,
   isFunctor,
@@ -9,6 +10,19 @@ import {
 } from '../validation';
 
 describe('valdation functions', () => {
+  describe('isPlainObject', () => {
+    test('should return true', () => {
+      expect(isPlainObject({})).toBe(true);
+    });
+    test('should return false', () => {
+      expect(isPlainObject([])).toBe(false);
+      expect(isPlainObject(new Map())).toBe(false);
+      expect(isPlainObject(new Set())).toBe(false);
+      expect(isPlainObject(() => {})).toBe(false);
+      expect(isPlainObject(String('hello'))).toBe(false);
+    });
+  });
+
   describe('isArrayLike', () => {
     test('should return true', () => {
       expect(isArrayLike(arrLike)).toBe(true);
