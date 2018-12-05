@@ -16,7 +16,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with Map', () => {
-      each(([k, v]) => sideEffect.push(v * 2), testMap);
+      each((e) => sideEffect.push(e[1] * 2), testMap);
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with Set', () => {
@@ -47,7 +47,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with Map', () => {
-      eachR(([k, v]) => sideEffect.push(v * 2), testMap);
+      eachR((e) => sideEffect.push(e[1] * 2), testMap);
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with Set', () => {
@@ -137,7 +137,7 @@ describe('mapper functions', () => {
       ).toEqual({ checked: 2 });
     });
     test('with Map', () => {
-      expect(reduce((acc, [key, value]) => acc + value, 0, testMap)).toBe(3);
+      expect(reduce((acc, e) => acc + e[0], 0, testMap)).toBe(3);
     });
     test('with Set', () => {
       expect(reduce((acc, val) => acc + val, testSet)).toBe(3);

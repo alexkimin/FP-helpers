@@ -14,8 +14,3 @@ export const otherwise = curry2((f, p) => p.catch(f));
  * thenCatch :: Promise p => (a -> p b) -> (a -> p b) -> p a -> p b;
  */
 export const thenCatch = curry((t, c, p) => p.then(t).catch(c));
-
-/**
- * then :: Promise p => (a -> b | p b) -> a | e a -> b | e b;
- */
-// export const then = curry2((f, a) => isPromise(a) ? a.then(f) : f(a));
