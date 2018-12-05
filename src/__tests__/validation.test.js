@@ -4,36 +4,34 @@ import {
   isFunctor,
   isGenerator,
   isArrayLike,
+  hasMethod,
 } from '../validation';
 
 describe('valdation functions', () => {
+  describe('isArrayLike', () => {
+    test('should return true', () => {
+      expect(isArrayLike(arrLike)).toBe(true);
+      expect(isArrayLike(arrLikeObj)).toBe(true);
+    });
+    test('should return false', () => {
+      expect(isArrayLike({})).toBe(false);
+    });
+  });
+
   describe('isIterable', () => {
-    function* gen() {
-      yield* ['a', 'b', 'c'];
-    }
-    const generatorObject = gen();
     test('should return false', () => {
       expect(isIterable({})).toBe(false);
-      expect(isIterable({
-        0: 1,
-        1: 2,
-        length: 2,
-      })).toBe(false);
+      expect(isIterable(arrLikeObj)).toBe(false);
       expect(isIterable(undefined)).toBe(false);
       expect(isIterable(null)).toBe(false);
       expect(isIterable(12)).toBe(false);
       expect(isIterable(Function)).toBe(false);
       expect(isIterable(Promise)).toBe(false);
-      expect(isIterable(gen)).toBe(false);
+      expect(isIterable(generator)).toBe(false);
     });
     test('should return true', () => {
-      let arg;
-      (function (a, b) {
-        arg = arguments;
-        return a + b;
-      }(1, 2));
       expect(isIterable([])).toBe(true);
-      expect(isIterable(arg)).toBe(true);
+      expect(isIterable(arrLike)).toBe(true);
       expect(isIterable(new Map())).toBe(true);
       expect(isIterable(new Set())).toBe(true);
       expect(isIterable('hello')).toBe(true);
@@ -43,20 +41,22 @@ describe('valdation functions', () => {
 
   describe('isPromise', () => {
     test('should return true', () => {
-      const test = () => new Promise(resolve => setTimeout(() => resolve(), 2000));
-      expect(isPromise(test())).toBe(true);
+      expect(isPromise(promiseFn())).toBe(true);
     });
     test('should return false', () => {
+      expect(isPromise(Promise)).toBe(false);
       expect(isPromise({})).toBe(false);
     });
   });
 
   describe('isGenerator', () => {
     test('should return true', () => {
-      expect(isGenerator(function* () {})).toBe(true);
+      expect(isGenerator(generator)).toBe(true);
     });
     test('should return false', () => {
       expect(isGenerator(() => {})).toBe(false);
+      expect(isGenerator(promiseFn())).toBe(false);
+      expect(isGenerator(arrLike)).toBe(false);
       expect(isGenerator({})).toBe(false);
       expect(isGenerator('hello')).toBe(false);
       expect(isGenerator(undefined)).toBe(false);
@@ -64,36 +64,28 @@ describe('valdation functions', () => {
     });
   });
 
-  describe('isArrayLike', () => {
-    test('should return true', () => {
-      let arg;
-      (function (a, b) {
-        arg = arguments;
-        return a + b;
-      }(1, 2));
-      expect(isArrayLike(arg)).toBe(true);
-      expect(isArrayLike({
-        0: 1,
-        1: 2,
-        length: 2,
-      })).toBe(true);
-    });
-    test('should return false', () => {
-      expect(isArrayLike({})).toBe(false);
-    });
-  });
-
   describe('isFunctor', () => {
     test('should return true', () => {
       expect(isFunctor({})).toBe(true);
+      expect(isFunctor(generatorObject)).toBe(true);
       expect(isFunctor([])).toBe(true);
       expect(isFunctor(() => {})).toBe(true);
+      expect(isFunctor(generator)).toBe(true);
       expect(isFunctor(Promise)).toBe(true);
       expect(isFunctor(new Map())).toBe(true);
     });
     test('should return false', () => {
       expect(isFunctor(new Set())).toBe(false);
       expect(isFunctor('hello')).toBe(false);
+    });
+  });
+
+  describe('hasMethod', () => {
+    test('should return true', () => {
+      expect(hasMethod(testObj, 'hasOwnProperty')).toBe(true);
+    });
+    test('should return false', () => {
+      expect(hasMethod(testObj, 'forEach')).toBe(false);
     });
   });
 });

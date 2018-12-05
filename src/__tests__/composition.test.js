@@ -1,3 +1,4 @@
+import { identity } from '../common';
 import {
   pipe,
   pipeA,

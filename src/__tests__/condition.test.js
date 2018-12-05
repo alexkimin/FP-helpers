@@ -35,6 +35,7 @@ describe('condition functions', () => {
     });
     test('not', () => {
       expect(not(true)).toBe(false);
+      expect(not(() => true)).toBe(false);
     });
   });
 

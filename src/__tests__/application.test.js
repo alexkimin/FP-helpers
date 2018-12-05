@@ -14,6 +14,7 @@ describe('application functions', () => {
     test('should return applied value', () => {
       expect(call(Math.max, 1, 2)).toBe(2);
       expect(call(Math.max)(1, 2)).toBe(2);
+      expect(call(Math.max)(1, 2)).toBe(2);
     });
   });
 });

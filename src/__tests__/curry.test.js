@@ -52,6 +52,8 @@ describe('curry functions', () => {
       const curried = curry2(addAndMult);
       expect(curried(1, 2)).toBe(5);
       expect(curried(1)(2)).toBe(5);
+      expect(curried(1, 2, 5)).toBe(7);
+      expect(curried(1)(2, 5)).toBe(7);
     });
   });
 });

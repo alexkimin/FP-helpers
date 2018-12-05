@@ -179,7 +179,7 @@ describe('mapper functions', () => {
       expect(reduce((acc, val) => acc + val, arrLike)).toBe(3);
     });
     test('with string', () => {
-      expect(reduce((acc, val) => acc.length < 4 ? acc + val : acc, 'alex')).toBe('ale');
+      expect(reduce((acc, val) => acc.length < 3 ? acc + val : acc, 'alex')).toBe('ale');
     });
   });
 });
