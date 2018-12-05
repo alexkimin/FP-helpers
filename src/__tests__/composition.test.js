@@ -1,5 +1,4 @@
 /* eslint no-undef: 0 */
-import { identity } from '../common';
 import {
   pipe, pipeA, pipeP, compose, composeA, composeP,
 } from '../composition';

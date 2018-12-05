@@ -137,7 +137,7 @@ describe('mapper functions', () => {
       ).toEqual({ checked: 2 });
     });
     test('with Map', () => {
-      expect(reduce((acc, e) => acc + e[0], 0, testMap)).toBe(3);
+      expect(reduce((acc, e) => acc + e[1], 0, testMap)).toBe(3);
     });
     test('with Set', () => {
       expect(reduce((acc, val) => acc + val, testSet)).toBe(3);
