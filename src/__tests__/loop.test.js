@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-import { each, eachR, reduce } from '../loop';
+import { each, eachR, reduce, map } from '../loop';
 
 describe('mapper functions', () => {
   describe('each', () => {
@@ -7,7 +7,6 @@ describe('mapper functions', () => {
     beforeEach(() => {
       sideEffect = [];
     });
-
     test('with array', () => {
       each(v => sideEffect.push(v * 2), testArr);
       expect(sideEffect).toEqual([2, 4]);
@@ -29,7 +28,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with arrayLike', () => {
-      each(v => sideEffect.push(v * 2), arrLike);
+      each(v => sideEffect.push(v * 2), argumentObj);
       expect(sideEffect).toEqual([2, 4]);
     });
   });
@@ -39,7 +38,6 @@ describe('mapper functions', () => {
     beforeEach(() => {
       sideEffect = [];
     });
-
     test('with array', () => {
       eachR(v => sideEffect.push(v * 2), testArr);
       expect(sideEffect).toEqual([4, 2]);
@@ -61,44 +59,31 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with arrayLike', () => {
-      eachR(v => sideEffect.push(v * 2), arrLike);
+      eachR(v => sideEffect.push(v * 2), argumentObj);
       expect(sideEffect).toEqual([4, 2]);
     });
   });
 
-  // describe('map', () => {
-  // test('with array', () => {
-  //   expect(map([1, 2], n => n * 2)).toEqual([2, 4]);
-  // });
-  // test('with object', () => {
-  //   expect(map({ a: 1, b: 2 }, n => n * 2)).toEqual([2, 4]);
-  // });
-  // test('with Map', () => {
-  //   const data = new Map();
-  //   data.set('a', 1);
-  //   data.set('b', 2);
-  //   expect(map(data, n => n * 2)).toEqual([2, 4]);
-  // });
-  // test('with Set', () => {
-  //   const data = new Set();
-  //   data.add(1);
-  //   data.add(2);
-  //   expect(map(data, n => n * 2)).toEqual([2, 4]);
-  // });
-  // test('with string', () => {
-  //   expect(map('12', n => n * 2)).toEqual([2, 4]);
-  // });
-  // test('with arrayLike', () => {
-  //   expect(map(
-  //     {
-  //       0: 5,
-  //       1: 6,
-  //       length: 2,
-  //     },
-  //     n => n * 2,
-  //     )).toEqual([10, 12]);
-  // });
-  // });
+  describe('map', () => {
+    test('with array', () => {
+      expect(map(n => n * 2, testArr)).toEqual([2, 4]);
+    });
+    test('with object', () => {
+      expect(map(n => n * 2, testObj)).toEqual({ a: 2, b: 4 });
+    });
+    test('with Map', () => {
+      expect(map(n => n * 2, testMap)).toEqual(new Map([['a', 2], ['b', 4]]));
+    });
+    test('with Set', () => {
+      expect(map(n => n * 2, testSet)).toBe(undefined);
+    });
+    test('with string', () => {
+      expect(map(n => n * 2, '12')).toBe(undefined);
+    });
+    test('with arrayLike', () => {
+      expect(map(n => n * 2, arrLikeObj)).toEqual({ 0: 2, 1: 4, length: 4 });
+    });
+  });
 
   // describe('filter', () => {
   //   test('with array', () => {
@@ -142,7 +127,7 @@ describe('mapper functions', () => {
       expect(reduce((acc, cur) => acc + cur, 0, testObj)).toBe(3);
       expect(
         reduce(
-          (acc, val) => {
+          (acc) => {
             acc.checked = acc.checked ? ++acc.checked : 1;
             return acc;
           },
@@ -158,7 +143,7 @@ describe('mapper functions', () => {
       expect(reduce((acc, val) => acc + val, testSet)).toBe(3);
     });
     test('with arrayLike', () => {
-      expect(reduce((acc, val) => acc + val, arrLike)).toBe(3);
+      expect(reduce((acc, val) => acc + val, argumentObj)).toBe(3);
     });
     test('with string', () => {
       expect(reduce((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('ale');

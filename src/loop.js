@@ -1,20 +1,17 @@
-import { curry, curryR, curry2 } from './curry';
+import { curry2 } from './curry';
 import { pipe } from './composition';
 import { takeAll } from './take';
 import { Iter } from './iter';
 import { L } from './lazy';
 import {
-  isIterable, isArrayLike, isObject, isFunctor, isUndefined,
+  isFunctor, isUndefined, isFunction, isArray, isMap, isPromise,
 } from './validation';
 import { reverse } from './collection';
 
 // each :: Collection c => (a -> ...) -> c a -> c a
 // each :: (a -> ...) -> String -> String
 export const each = curry2((iteratee, coll) => {
-  pipe(
-    L.each(iteratee),
-    takeAll,
-  )(coll);
+  pipe(L.each(iteratee), takeAll)(coll);
   return coll;
 });
 
@@ -37,3 +34,24 @@ export const reduce = curry2((iteratee, acc, coll) => {
 // export const reduceR = curry2((iteratee, acc, coll) => {
 
 // });
+
+// map :: Functor f => (a -> b) - f a -> f b
+export const map = curry2((iteratee, f) => {
+  // Array
+  if (isArray(f)) return reduce((a, v) => {
+    a.push(iteratee(v));
+    return a;
+  }, [], f);
+  // Function, Promise
+  if (isFunction(f)) return (...a) => isPromise(f) ? f.then(...a) : f(...a);
+  // Map
+  if (isMap(f)) return reduce((m, [k, v]) => {
+    m.set(k, iteratee(v));
+    return m;
+  }, new Map(), f);
+  // plain object, !arrayLike, !Set
+  if (isFunctor(f)) return reduce((obj, k) => {
+    obj[k] = iteratee(f[k]);
+    return obj;
+  }, {}, Object.keys(f));
+});
