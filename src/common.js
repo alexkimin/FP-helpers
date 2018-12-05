@@ -2,4 +2,4 @@
 export const identity = a => a;
 
 // noop :: a -> undefined
-export const noop = a => {};
+export const noop = () => {};
