@@ -1,5 +1,5 @@
 import { pipe } from './composition';
-import { apply } from './application';
+import { apply } from './apply';
 import {
   isArray, isString, isMap, isSet, isArrayLike, isObject,
 } from './validation';

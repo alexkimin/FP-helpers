@@ -1,6 +1,6 @@
 import { identity, noop } from './common';
 import { isFunction, isArray } from './validation';
-import { apply } from './application';
+import { apply } from './apply';
 import { pipe } from './composition';
 import { curry2 } from './curry';
 
