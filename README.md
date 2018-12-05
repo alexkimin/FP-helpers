@@ -1,5 +1,7 @@
 # FP-helpers
 
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/hits/master.svg?style=flat-square)]
+
 This repo is personal implementations and unit testings of functional programming style functions for studying purpose and some note. There are already brilliant libraries like [Lodash](https://lodash.com/) or [Ramda](https://ramdajs.com/). Personally, I highly recommend exploring the functional programming paradigm for your project or for fun.
 
 ### Why?
