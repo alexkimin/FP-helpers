@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 import { L } from '../lazy';
 import { isIterable } from '../validation';
 import { identity } from '../common';

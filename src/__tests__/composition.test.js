@@ -1,23 +1,15 @@
+/* eslint no-undef: 0 */
 import { identity } from '../common';
 import {
-  pipe,
-  pipeA,
-  pipeP,
-  compose,
-  composeA,
-  composeP,
+  pipe, pipeA, pipeP, compose, composeA, composeP,
 } from '../composition';
 
 describe('composition functions', () => {
-  const fns1 = [
-    n => n * 2,
-    n => n * 3,
-    n => n.toString(),
-  ];
+  const fns1 = [n => n * 2, n => n * 3, n => n.toString()];
 
   const fns2 = [
-    async n => await n * 2,
-    async (n) => {
+    async n => (await n) * 2,
+    async n => {
       const result = await new Promise(resolve => setTimeout(() => resolve(n * 2), 200));
       return result;
     },
@@ -49,19 +41,13 @@ describe('composition functions', () => {
   });
   describe('composeA', () => {
     test('should return right to left composed async/await(or promise) function', async () => {
-      const result = await composeA(...[
-        n => n.toString(),
-        ...fns2,
-      ])(1);
+      const result = await composeA(...[n => n.toString(), ...fns2])(1);
       expect(result).toBe('8');
     });
   });
   describe('composeP', () => {
     test('should work same as composeA', async () => {
-      const result = await composeP(...[
-        n => n.toString(),
-        ...fns2,
-      ])(1);
+      const result = await composeP(...[n => n.toString(), ...fns2])(1);
       expect(result).toBe('8');
     });
   });

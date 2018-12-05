@@ -1,11 +1,5 @@
-import {
-  each,
-  eachR,
-  map,
-  filter,
-  reduce,
-  reduceR,
-} from '../loop';
+/* eslint no-undef: 0 */
+import { each, eachR, reduce } from '../loop';
 
 describe('mapper functions', () => {
   describe('each', () => {
@@ -40,84 +34,70 @@ describe('mapper functions', () => {
     });
   });
 
-  // describe('eachR', () => {
-  //   let sideEffect;
+  describe('eachR', () => {
+    let sideEffect;
+    beforeEach(() => {
+      sideEffect = [];
+    });
 
-  //   beforeEach(() => {
-  //     sideEffect = [];
-  //   });
-
-  //   test('with array', () => {
-  //     eachR([1, 2], v => sideEffect.push(v * 2));
-  //     expect(sideEffect).toEqual([4, 2]);
-  //   });
-  //   test('with object', () => {
-  //     eachR({ a: 1, b: 2 }, v => sideEffect.push(v * 2));
-  //     expect(sideEffect).toEqual([4, 2]);
-  //   });
-  //   test('with Map', () => {
-  //     const data = new Map();
-  //     data.set('a', 1);
-  //     data.set('b', 2);
-  //     eachR(data, v => sideEffect.push(v * 2));
-  //     expect(sideEffect).toEqual([4, 2]);
-  //   });
-  //   test('with Set', () => {
-  //     const data = new Set();
-  //     data.add(1);
-  //     data.add(2);
-  //     eachR(data, v => sideEffect.push(v * 2));
-  //     expect(sideEffect).toEqual([4, 2]);
-  //   });
-  //   test('with string', () => {
-  //     eachR('12', v => sideEffect.push(v * 2));
-  //     expect(sideEffect).toEqual([4, 2]);
-  //   });
-  //   test('with arrayLike', () => {
-  //     eachR(
-  //       {
-  //         0: 5,
-  //         1: 6,
-  //         length: 2,
-  //       },
-  //       v => sideEffect.push(v * 2),
-  //     );
-  //     expect(sideEffect).toEqual([12, 10]);
-  //   });
-  // });
+    test('with array', () => {
+      eachR(v => sideEffect.push(v * 2), testArr);
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with object', () => {
+      eachR(v => sideEffect.push(v * 2), testObj);
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with Map', () => {
+      eachR(([k, v]) => sideEffect.push(v * 2), testMap);
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with Set', () => {
+      eachR(v => sideEffect.push(v * 2), testSet);
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with string', () => {
+      eachR(v => sideEffect.push(v * 2), '12');
+      expect(sideEffect).toEqual([4, 2]);
+    });
+    test('with arrayLike', () => {
+      eachR(v => sideEffect.push(v * 2), arrLike);
+      expect(sideEffect).toEqual([4, 2]);
+    });
+  });
 
   // describe('map', () => {
-    // test('with array', () => {
-    //   expect(map([1, 2], n => n * 2)).toEqual([2, 4]);
-    // });
-    // test('with object', () => {
-    //   expect(map({ a: 1, b: 2 }, n => n * 2)).toEqual([2, 4]);
-    // });
-    // test('with Map', () => {
-    //   const data = new Map();
-    //   data.set('a', 1);
-    //   data.set('b', 2);
-    //   expect(map(data, n => n * 2)).toEqual([2, 4]);
-    // });
-    // test('with Set', () => {
-    //   const data = new Set();
-    //   data.add(1);
-    //   data.add(2);
-    //   expect(map(data, n => n * 2)).toEqual([2, 4]);
-    // });
-    // test('with string', () => {
-    //   expect(map('12', n => n * 2)).toEqual([2, 4]);
-    // });
-    // test('with arrayLike', () => {
-    //   expect(map(
-    //     {
-    //       0: 5,
-    //       1: 6,
-    //       length: 2,
-    //     },
-    //     n => n * 2,
-    //     )).toEqual([10, 12]);
-    // });
+  // test('with array', () => {
+  //   expect(map([1, 2], n => n * 2)).toEqual([2, 4]);
+  // });
+  // test('with object', () => {
+  //   expect(map({ a: 1, b: 2 }, n => n * 2)).toEqual([2, 4]);
+  // });
+  // test('with Map', () => {
+  //   const data = new Map();
+  //   data.set('a', 1);
+  //   data.set('b', 2);
+  //   expect(map(data, n => n * 2)).toEqual([2, 4]);
+  // });
+  // test('with Set', () => {
+  //   const data = new Set();
+  //   data.add(1);
+  //   data.add(2);
+  //   expect(map(data, n => n * 2)).toEqual([2, 4]);
+  // });
+  // test('with string', () => {
+  //   expect(map('12', n => n * 2)).toEqual([2, 4]);
+  // });
+  // test('with arrayLike', () => {
+  //   expect(map(
+  //     {
+  //       0: 5,
+  //       1: 6,
+  //       length: 2,
+  //     },
+  //     n => n * 2,
+  //     )).toEqual([10, 12]);
+  // });
   // });
 
   // describe('filter', () => {
@@ -160,14 +140,16 @@ describe('mapper functions', () => {
     });
     test('with object', () => {
       expect(reduce((acc, cur) => acc + cur, 0, testObj)).toBe(3);
-      expect(reduce(
-        (acc, val) => {
-          acc.checked = acc.checked ? ++acc.checked : 1;
-          return acc;
-        },
-        {},
-        testObj,
-      )).toEqual({ checked: 2 });
+      expect(
+        reduce(
+          (acc, val) => {
+            acc.checked = acc.checked ? ++acc.checked : 1;
+            return acc;
+          },
+          {},
+          testObj,
+        ),
+      ).toEqual({ checked: 2 });
     });
     test('with Map', () => {
       expect(reduce((acc, [key, value]) => acc + value, 0, testMap)).toBe(3);
@@ -179,7 +161,7 @@ describe('mapper functions', () => {
       expect(reduce((acc, val) => acc + val, arrLike)).toBe(3);
     });
     test('with string', () => {
-      expect(reduce((acc, val) => acc.length < 3 ? acc + val : acc, 'alex')).toBe('ale');
+      expect(reduce((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('ale');
     });
   });
 });

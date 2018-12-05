@@ -1,7 +1,5 @@
-import {
-  take,
-  takeAll,
-} from '../take';
+/* eslint no-undef: 0 */
+import { take, takeAll } from '../take';
 
 describe('take functions', () => {
   describe('take', () => {

@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 import { Iter } from '../iter';
 import { isIterable } from '../validation';
 

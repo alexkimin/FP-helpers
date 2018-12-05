@@ -1,8 +1,6 @@
+/* eslint no-undef: 0 */
 import {
-  curry,
-  curryR,
-  curryRR,
-  curry2,
+  curry, curryR, curryRR, curry2,
 } from '../curry';
 
 describe('curry functions', () => {
@@ -18,12 +16,7 @@ describe('curry functions', () => {
     test('should work as expected', () => {
       const add = (a, b) => (...c) => a(...c) + b(...c);
       const curriedAdd = curry(add);
-      expect(
-        curriedAdd(
-          (n, k) => n + k + 2,
-          (n, k) => n + k + 2,
-        )(3, 2),
-      ).toBe(14);
+      expect(curriedAdd((n, k) => n + k + 2, (n, k) => n + k + 2)(3, 2)).toBe(14);
     });
   });
   describe('curryR', () => {

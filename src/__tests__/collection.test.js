@@ -1,7 +1,5 @@
-import {
-  flatten,
-  reverse,
-} from '../collection';
+/* eslint no-undef: 0 */
+import { flatten, reverse } from '../collection';
 
 describe('collection functions', () => {
   describe('flatten', () => {
