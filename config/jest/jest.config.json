@@ -2,6 +2,11 @@
   "rootDir": "../../",
   "verbose": true,
   "coverageDirectory": "<rootDir>/coverage",
+  "coverageReporters": [
+    "json-summary",
+    "text",
+    "lcov"
+  ],
   "cacheDirectory": "<rootDir>/.cache",
   "collectCoverageFrom": [
     "<rootDir>/src/**/*.js",
@@ -12,12 +17,16 @@
     "<rootDir>/src/**/__tests__/**/*.js",
     "<rootDir>/src/**/?(*.)(spec|test).js"
   ],
-  "setupFiles": ["<rootDir>/config/jest/jest.init.js"],
+  "setupFiles": [
+    "<rootDir>/config/jest/jest.init.js"
+  ],
   "setupTestFrameworkScriptFile": "<rootDir>/config/jest/jest.global.js",
   "transform": {
     "^.+\\.(js|jsx)$": "babel-jest"
   },
-  "moduleFileExtensions": ["js"],
+  "moduleFileExtensions": [
+    "js"
+  ],
   "transformIgnorePatterns": [
     "<rootDir>/node_modules/"
   ],
