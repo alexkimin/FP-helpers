@@ -42,7 +42,7 @@ export const isGenerator = fn =>
 // functors must preserve identity morphisms and composition of morphisms.
 export const isFunctor = a => {
   if (!a) return false;
-  return !isString(a) && !isSet(a) && (isObject(a) || isFunction(a));
+  return !isSet(a) && (isObject(a) || isFunction(a));
 };
 
 export const hasMethod = (arg, name) => typeof arg[name] === 'function';

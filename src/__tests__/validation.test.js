@@ -20,6 +20,8 @@ describe('valdation functions', () => {
       expect(isPlainObject(new Set())).toBe(false);
       expect(isPlainObject(() => {})).toBe(false);
       expect(isPlainObject(String('hello'))).toBe(false);
+      expect(isPlainObject(undefined)).toBe(false);
+      expect(isPlainObject(null)).toBe(false);
     });
   });
 
