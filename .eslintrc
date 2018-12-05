@@ -1,7 +1,12 @@
 {
-  "extends": ["airbnb"],
+  "extends": [
+    "airbnb"
+  ],
   "parser": "babel-eslint",
-  "plugins": ["import", "jest"],
+  "plugins": [
+    "import",
+    "jest"
+  ],
   "env": {
     "jest": true
   },
@@ -20,6 +25,7 @@
     "nonblock-statement-body-position": 0,
     "prefer-rest-params": 0,
     "no-param-reassign": 0,
-    "no-plusplus": 0
+    "no-plusplus": 0,
+    "prefer-promise-reject-errors": 0
   }
 }
