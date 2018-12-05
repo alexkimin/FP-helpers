@@ -18,4 +18,4 @@ export const take = curry2((num, coll) => {
   return result;
 });
 
-export const takeAll = take(Infinity);
+export const takeAll = coll => take(Infinity, coll);

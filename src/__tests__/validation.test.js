@@ -25,8 +25,9 @@ describe('valdation functions', () => {
 
   describe('isArrayLike', () => {
     test('should return true', () => {
-      expect(isArrayLike(arrLike)).toBe(true);
+      expect(isArrayLike(argumentObj)).toBe(true);
       expect(isArrayLike(arrLikeObj)).toBe(true);
+      expect(isArrayLike([])).toBe(true);
     });
     test('should return false', () => {
       expect(isArrayLike({})).toBe(false);
@@ -46,7 +47,7 @@ describe('valdation functions', () => {
     });
     test('should return true', () => {
       expect(isIterable([])).toBe(true);
-      expect(isIterable(arrLike)).toBe(true);
+      expect(isIterable(argumentObj)).toBe(true);
       expect(isIterable(new Map())).toBe(true);
       expect(isIterable(new Set())).toBe(true);
       expect(isIterable('hello')).toBe(true);
@@ -71,7 +72,7 @@ describe('valdation functions', () => {
     test('should return false', () => {
       expect(isGenerator(() => {})).toBe(false);
       expect(isGenerator(promiseFn())).toBe(false);
-      expect(isGenerator(arrLike)).toBe(false);
+      expect(isGenerator(argumentObj)).toBe(false);
       expect(isGenerator({})).toBe(false);
       expect(isGenerator('hello')).toBe(false);
       expect(isGenerator(undefined)).toBe(false);
@@ -91,7 +92,9 @@ describe('valdation functions', () => {
     });
     test('should return false', () => {
       expect(isFunctor(new Set())).toBe(false);
+      expect(isFunctor(new Set())).toBe(false);
       expect(isFunctor('hello')).toBe(false);
+      expect(isFunctor(String('hello'))).toBe(false);
     });
   });
 

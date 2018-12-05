@@ -38,11 +38,11 @@ export const isIterable = arg => Symbol.iterator in Object(arg);
 export const isGenerator = fn =>
   isFunction(fn) && ['GeneratorFunction', 'AsyncGeneratorFunction'].includes(fn.constructor.name);
 
-// [], {}, Map, Promise, Function, ArrayLike
+// [], {}, Map, Promise, Function
 // functors must preserve identity morphisms and composition of morphisms.
-export const isFunctor = arg => {
-  if (!arg) return false;
-  return !isSet(arg) && (isObject(arg) || isFunction(arg));
+export const isFunctor = a => {
+  if (!a) return false;
+  return !isString(a) && !isSet(a) && (isObject(a) || isFunction(a));
 };
 
 export const hasMethod = (arg, name) => typeof arg[name] === 'function';

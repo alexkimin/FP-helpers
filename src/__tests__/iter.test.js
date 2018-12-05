@@ -16,8 +16,8 @@ describe('iter functions', () => {
     test('should work as expected', () => {
       const iter = Iter.entries(testObj);
       expect(isIterable(iter)).toBe(true);
-      expect(iter.next()).toEqual({ value: ['name', 1], done: false });
-      expect(iter.next()).toEqual({ value: ['gender', 2], done: false });
+      expect(iter.next()).toEqual({ value: ['a', 1], done: false });
+      expect(iter.next()).toEqual({ value: ['b', 2], done: false });
       expect(iter.next()).toEqual({ value: undefined, done: true });
     });
   });
@@ -25,8 +25,8 @@ describe('iter functions', () => {
     test('should work as expected', () => {
       const iter = Iter.keys(testObj);
       expect(isIterable(iter)).toBe(true);
-      expect(iter.next()).toEqual({ value: 'name', done: false });
-      expect(iter.next()).toEqual({ value: 'gender', done: false });
+      expect(iter.next()).toEqual({ value: 'a', done: false });
+      expect(iter.next()).toEqual({ value: 'b', done: false });
       expect(iter.next()).toEqual({ value: undefined, done: true });
     });
   });
