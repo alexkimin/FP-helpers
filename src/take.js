@@ -9,10 +9,11 @@ export const take = curry2((num, coll) => {
   if (isString(coll)) return coll.substr(0, num);
   const result = [];
   const iter = Iter.values(coll);
-  let cur;
-  while(!(cur = iter.next()).done) {
+  let cur = iter.next();
+  while (!cur.done) {
     result.push(cur.value);
     if (result.length === num) break;
+    cur = iter.next();
   }
   return result;
 });
