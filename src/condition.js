@@ -7,7 +7,7 @@ import { curry2 } from './curry';
 export const and = curry2((a, b) => a && b);
 export const or = curry2((a, b) => a || b);
 export const not = a => !a;
-export const equal = curry2((a, b) => a === b);
+export const eq = curry2((a, b) => a === b);
 
 export const allTrue = (...fns) => (...a) => fns.every(fn => (isFunction(fn) ? !!fn(...a) : !!fn));
 export const anyTrue = (...fns) => (...a) => fns.some(fn => (isFunction(fn) ? !!fn(...a) : !!fn));

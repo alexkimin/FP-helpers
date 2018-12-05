@@ -23,5 +23,8 @@ describe('collection functions', () => {
     test('should return reversed string', () => {
       expect(reverse('ab')).toEqual('ba');
     });
+    test('should return array if the arg is not a collection', () => {
+      expect(reverse(12)).toEqual([]);
+    });
   });
 });

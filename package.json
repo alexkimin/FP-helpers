@@ -2,7 +2,9 @@
   "name": "my_utilities",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest --config config/jest/jest.config.json",
+    "test": "jest --config config/jest/jest.config.json --changedSince=master",
+    "test:coverage": "npm run clean && jest --config config/jest/jest.config.json --coverage",
+    "test:open": "open coverage/lcov-report/index.html",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix",
     "clean": "rm -rf ./.cache"
