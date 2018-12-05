@@ -16,11 +16,9 @@ _iter.keys = function* (coll) {
 };
 
 const _handleIterMethods = name => coll =>
-  hasMethod(coll, name)
-    ? coll[name](coll)
-    : _iter[name](coll);
+  hasMethod(coll, name) ? coll[name](coll) : _iter[name](coll);
 
 export const Iter = {};
-Iter.values = coll => isIterable(coll) ? coll[Symbol.iterator]() : _iter.values(coll);
+Iter.values = coll => (isIterable(coll) ? coll[Symbol.iterator]() : _iter.values(coll));
 Iter.entries = coll => _handleIterMethods('entries')(coll);
 Iter.keys = coll => _handleIterMethods('keys')(coll);

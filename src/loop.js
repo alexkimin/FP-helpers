@@ -4,17 +4,16 @@ import { takeAll } from './take';
 import { Iter } from './iter';
 import { L } from './lazy';
 import {
-  isIterable,
-  isArrayLike,
-  isObject,
-  isFunctor,
-  isUndefined,
+  isIterable, isArrayLike, isObject, isFunctor, isUndefined,
 } from './validation';
 
 // each :: Collection c => (a -> ...) -> c a -> c a
 // each :: (a -> ...) -> String -> String
 export const each = curry2((iteratee, coll) => {
-  pipe(L.each(iteratee), takeAll)(coll);
+  pipe(
+    L.each(iteratee),
+    takeAll,
+  )(coll);
   return coll;
 });
 
