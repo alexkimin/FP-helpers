@@ -1,6 +1,7 @@
 import {
   apply,
   call,
+  applyE,
 } from '../apply';
 
 describe('apply functions', () => {
@@ -16,6 +17,16 @@ describe('apply functions', () => {
       expect(call(Math.max, 1, 2)).toBe(2);
       expect(call(Math.max)(1, 2)).toBe(2);
       expect(call(Math.max)(1, 2)).toBe(2);
+    });
+  });
+
+  describe('applyE', () => {
+    test('should work with non promise', () => {
+      expect(applyE(v => v * 2, 2)).toBe(4);
+    });
+    test('should work with promise', async () => {
+      const result = await applyE(v => v * 2, Promise.resolve(2));
+      expect(result).toBe(4);
     });
   });
 });
