@@ -6,6 +6,7 @@ import { L } from './lazy';
 import {
   isIterable, isArrayLike, isObject, isFunctor, isUndefined,
 } from './validation';
+import { reverse } from './collection';
 
 // each :: Collection c => (a -> ...) -> c a -> c a
 // each :: (a -> ...) -> String -> String
@@ -16,6 +17,10 @@ export const each = curry2((iteratee, coll) => {
   )(coll);
   return coll;
 });
+
+// eachR :: Collection c => (a -> ...) -> c a -> c a
+// eachR :: (a -> ...) -> String -> String
+export const eachR = curry2((iteratee, coll) => each(iteratee, reverse(coll)));
 
 // reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
 // reduce :: ((a, String) -> a) -> a -> String -> a
