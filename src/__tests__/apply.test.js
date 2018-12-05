@@ -2,7 +2,7 @@ import {
   apply,
   call,
   then,
-} from '../application';
+} from '../apply';
 
 describe('application functions', () => {
   describe('apply', () => {
