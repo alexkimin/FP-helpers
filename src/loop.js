@@ -12,12 +12,14 @@ import {
 } from './validation';
 
 // each :: Collection c => (a -> ...) -> c a -> c a
+// each :: (a -> ...) -> String -> String
 export const each = curry2((iteratee, coll) => {
   pipe(L.each(iteratee), takeAll)(coll);
   return coll;
 });
 
 // reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
+// reduce :: ((a, String) -> a) -> a -> String -> a
 export const reduce = curry2((iteratee, acc, coll) => {
   const iter = Iter.values(isUndefined(coll) ? acc : coll);
   let reduced = isUndefined(coll) ? iter.next().value : acc;

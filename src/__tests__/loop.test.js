@@ -8,21 +8,6 @@ import {
 } from '../loop';
 
 describe('mapper functions', () => {
-  // let testMap;
-  // let testSet;
-  // let testObj;
-  // let arrLike;
-  // let testArr;
-  // beforeEach(() => {
-  //   testMap = new Map([['a', 1], ['b', 2]]);
-  //   testSet = new Set([1, 2]);
-  //   testObj = { name: 1, gender: 2 };
-  //   testArr = [1, 2];
-  //   (function (a, b) {
-  //     arrLike = arguments;
-  //     return a + b;
-  //   }(1, 2));
-  // });
   describe('each', () => {
     let sideEffect;
     beforeEach(() => {
@@ -192,6 +177,9 @@ describe('mapper functions', () => {
     });
     test('with arrayLike', () => {
       expect(reduce((acc, val) => acc + val, arrLike)).toBe(3);
+    });
+    test('with string', () => {
+      expect(reduce((acc, val) => acc.length < 4 ? acc + val : acc, 'alex')).toBe('ale');
     });
   });
 });
