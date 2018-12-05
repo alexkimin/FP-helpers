@@ -1,5 +1,5 @@
-export const isString = arg => typeof arg === 'string';
-export const isNumber = arg => typeof arg === 'number';
+export const isString = s => Object.prototype.toString.call(s) === '[object String]';
+export const isNumber = n => Object.prototype.toString.call(n) === '[object Number]';
 export const isBool = arg => typeof arg === 'boolean';
 export const isUndefined = arg => arg === undefined;
 export const isNull = arg => arg === null;

@@ -18,8 +18,9 @@ describe('valdation functions', () => {
       expect(isPlainObject([])).toBe(false);
       expect(isPlainObject(new Map())).toBe(false);
       expect(isPlainObject(new Set())).toBe(false);
-      expect(isPlainObject(() => {})).toBe(false);
-      expect(isPlainObject(String('hello'))).toBe(false);
+      expect(isPlainObject(() => { })).toBe(false);
+      expect(isPlainObject(new String('hello'))).toBe(false);
+      expect(isPlainObject(new Number(1))).toBe(false);
       expect(isPlainObject(undefined)).toBe(false);
       expect(isPlainObject(null)).toBe(false);
     });
@@ -72,7 +73,7 @@ describe('valdation functions', () => {
       expect(isGenerator(generator)).toBe(true);
     });
     test('should return false', () => {
-      expect(isGenerator(() => {})).toBe(false);
+      expect(isGenerator(() => { })).toBe(false);
       expect(isGenerator(promiseFn())).toBe(false);
       expect(isGenerator(argumentObj)).toBe(false);
       expect(isGenerator({})).toBe(false);
@@ -87,7 +88,7 @@ describe('valdation functions', () => {
       expect(isFunctor({})).toBe(true);
       expect(isFunctor(generatorObject)).toBe(true);
       expect(isFunctor([])).toBe(true);
-      expect(isFunctor(() => {})).toBe(true);
+      expect(isFunctor(() => { })).toBe(true);
       expect(isFunctor(generator)).toBe(true);
       expect(isFunctor(Promise)).toBe(true);
       expect(isFunctor(new Map())).toBe(true);
