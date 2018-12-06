@@ -53,15 +53,15 @@ export const map = curry2((iteratee, ft) => {
     a.push(iteratee(v));
     return a;
   }, [], ft);
-  if (isFunction(ft)) return (...a) => iteratee(ft(...a));
-  if (isPromise(ft)) return ft.then(iteratee);
-  if (isMap(ft)) return reduce((m, [k, v]) => {
-    m.set(k, iteratee(v));
-    return m;
-  }, new Map(), ft);
   // plain object, arrayLikeObj, !Set
   if (isPlainObject(ft) || isArrayLike(ft)) return reduce((obj, k) => {
     obj[k] = iteratee(ft[k]);
     return obj;
   }, {}, Object.keys(ft));
+  if (isPromise(ft)) return ft.then(iteratee);
+  if (isMap(ft)) return reduce((m, [k, v]) => {
+    m.set(k, iteratee(v));
+    return m;
+  }, new Map(), ft);
+  if (isFunction(ft)) return (...a) => iteratee(ft(...a));
 });
