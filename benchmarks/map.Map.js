@@ -3,25 +3,25 @@ const Ramda = require('ramda');
 const _ = require('lodash');
 const { map } = require('../src/loop');
 
-const testObj = {
-  a: 1,
-  b: 2,
-  c: 3,
-  d: 4,
-};
+const testMap = new Map([
+  [1, 2],
+  [1, 2],
+  [1, 2],
+  [1, 2],
+]);
 const fn = v => v + 2;
 
 const suite = new Benchmark.Suite();
 
 suite
-  .add('map obj', () => {
-    map(fn, testObj);
+  .add('my.map Map', () => {
+    map(fn, testMap);
   })
-  .add('Ramda.mapObjIndexed obj', () => {
-    Ramda.mapObjIndexed(fn, testObj);
+  .add('Ramda.map Map', () => {
+    Ramda.map(fn, testMap);
   })
-  .add('_.map obj', () => {
-    _.map(fn, testObj);
+  .add('_.map Map', () => {
+    _.map(fn, testMap);
   });
 
 module.exports = suite;
