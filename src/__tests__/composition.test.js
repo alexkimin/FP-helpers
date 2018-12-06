@@ -20,14 +20,8 @@ describe('composition functions', () => {
       expect(pipe(...fns1)(1)).toBe('6');
     });
   });
-  describe('pipeA', () => {
-    test('should return left to right composed async/await(or promise) function', async () => {
-      const result = await pipeA(...fns2)(1);
-      expect(result).toBe(8);
-    });
-  });
   describe('pipeP', () => {
-    test('should work same as pipeA', async () => {
+    test('should return left to right composed async/await(or promise) function', async () => {
       const result = await pipeP(...fns2)(1);
       expect(result).toBe(8);
     });
@@ -38,14 +32,8 @@ describe('composition functions', () => {
       expect(compose(...fns1)(1)).toBe(6);
     });
   });
-  describe('composeA', () => {
-    test('should return right to left composed async/await(or promise) function', async () => {
-      const result = await composeA(...[n => n.toString(), ...fns2])(1);
-      expect(result).toBe('8');
-    });
-  });
   describe('composeP', () => {
-    test('should work same as composeA', async () => {
+    test('should return right to left composed async/await(or promise) function', async () => {
       const result = await composeP(...[n => n.toString(), ...fns2])(1);
       expect(result).toBe('8');
     });

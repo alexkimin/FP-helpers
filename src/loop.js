@@ -13,7 +13,7 @@ import { reverse } from './collection';
  * each :: (a -> ...) -> String -> String
  */
 export const each = curry2((iteratee, coll) => {
-  pipe(L.each(iteratee), takeAll)(coll);
+  pipe(L.loop(iteratee), takeAll)(coll);
   return coll;
 });
 
@@ -65,3 +65,8 @@ export const map = curry2((iteratee, ft) => {
   }, new Map(), ft);
   if (isFunction(ft)) return (...a) => iteratee(ft(...a));
 });
+
+/**
+ * filter:: Filterable f => (a -> Boolean) -> f a -> f a
+ */
+export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), takeAll)(coll));
