@@ -13,13 +13,12 @@ export const flatten = (arr, depth = 1) => {
 // reverse :: Collenction c => c a => [a]
 // reverse :: String => String
 export const reverse = coll => {
-  if (isArray(coll)) return [...coll].reverse();
+  if (isArray(coll) || isMap(coll) || isSet(coll) || isArrayLike(coll)) return [...coll].reverse();
   if (isString(coll))
     return coll
       .split('')
       .reverse()
       .join('');
-  if (isMap(coll) || isSet(coll) || isArrayLike(coll)) return Array.from(coll).reverse();
   if (isObject(coll)) return Object.values(coll).reverse();
   return [];
 };
