@@ -16,7 +16,6 @@ describe('collection functions', () => {
       expect(reverse(testArr)).toEqual([2, 1]);
       expect(reverse(testSet)).toEqual([2, 1]);
       expect(reverse(testMap)).toEqual([['b', 2], ['a', 1]]);
-      expect(reverse(argumentObj)).toEqual([2, 1]);
       expect(reverse(arrLikeObj)).toEqual([2, 1]);
       expect(reverse(testObj)).toEqual([2, 1]);
     });

@@ -28,7 +28,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with arrayLike', () => {
-      each(v => sideEffect.push(v * 2), argumentObj);
+      each(v => sideEffect.push(v * 2), arrLikeObj);
       expect(sideEffect).toEqual([2, 4]);
     });
   });
@@ -59,7 +59,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with arrayLike', () => {
-      eachR(v => sideEffect.push(v * 2), argumentObj);
+      eachR(v => sideEffect.push(v * 2), arrLikeObj);
       expect(sideEffect).toEqual([4, 2]);
     });
   });
@@ -81,7 +81,7 @@ describe('mapper functions', () => {
       expect(map(n => n * 2, '12')).toBe(undefined);
     });
     test('with arrayLike', () => {
-      expect(map(n => n * 2, arrLikeObj)).toEqual({ 0: 2, 1: 4, length: 4 });
+      expect(map(n => n * 2, arrLikeObj)).toEqual({ 0: 2, 1: 4 });
     });
   });
 
@@ -143,7 +143,7 @@ describe('mapper functions', () => {
       expect(reduce((acc, val) => acc + val, testSet)).toBe(3);
     });
     test('with arrayLike', () => {
-      expect(reduce((acc, val) => acc + val, argumentObj)).toBe(3);
+      expect(reduce((acc, val) => acc + val, arrLikeObj)).toBe(3);
     });
     test('with string', () => {
       expect(reduce((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('ale');

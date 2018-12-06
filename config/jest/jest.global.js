@@ -4,10 +4,9 @@ beforeAll(() => {
   global.testObj = { a: 1, b: 2 };
   global.testArr = [1, 2];
   (function (a, b) {
-    global.argumentObj = arguments;
+    global.arrLikeObj = arguments;
     return a + b;
   }(1, 2));
-  global.arrLikeObj = { 0: 1, 1: 2, length: 2 };
   function* gen() {
     yield* ['a', 'b', 'c'];
   }
