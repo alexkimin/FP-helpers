@@ -36,6 +36,14 @@ export const reduce = curry2((iteratee, acc, coll) => {
   }
   return reduced;
 });
+// export const reduce = curry2((iteratee, acc, coll) => {
+//   const iter = Iter.values(isUndefined(coll) ? acc : coll);
+//   let reduced = isUndefined(coll) ? iter.next().value : acc;
+//   for (const value of iter) {
+//     reduced = iteratee(reduced, value);
+//   }
+//   return reduced;
+// });
 
 /**
  * reduceR :: Collection c => ((a, b) -> a) -> a -> c b -> a
@@ -50,18 +58,19 @@ export const reduceR = curry2((iteratee, acc, coll) =>
  * map :: Functor f => (a -> b) - f a -> f b
  */
 export const map = curry2((iteratee, ft) => {
+  let idx = 0;
   if (isArray(ft)) return reduce((a, v) => {
-    a.push(iteratee(v));
+    a.push(iteratee(v, idx++, ft));
     return a;
   }, [], ft);
   // plain object, arrayLikeObj, !Set
   if (isPlainObject(ft) || isArrayLike(ft)) return reduce((obj, k) => {
-    obj[k] = iteratee(ft[k]);
+    obj[k] = iteratee(ft[k], k, ft);
     return obj;
   }, {}, Object.keys(ft));
   if (isPromise(ft)) return ft.then(iteratee);
   if (isMap(ft)) return reduce((m, [k, v]) => {
-    m.set(k, iteratee(v));
+    m.set(k, iteratee(v, k, ft));
     return m;
   }, new Map(), ft);
   if (isFunction(ft)) return (...a) => iteratee(ft(...a));

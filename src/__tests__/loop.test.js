@@ -108,10 +108,10 @@ describe('mapper functions', () => {
 
   describe('map', () => {
     test('with array', () => {
-      expect(map(n => n * 2, testArr)).toEqual([2, 4]);
+      expect(map((n, i) => n * 2 * i, testArr)).toEqual([0, 4]);
     });
     test('with object', () => {
-      expect(map(n => n * 2, testObj)).toEqual({ a: 2, b: 4 });
+      expect(map((n, k) => k + (n * 2), testObj)).toEqual({ a: 'a2', b: 'b4' });
     });
     test('with Map', () => {
       expect(map(n => n * 2, testMap)).toEqual(new Map([['a', 2], ['b', 4]]));
