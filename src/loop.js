@@ -58,12 +58,7 @@ export const reduceR = curry2((iteratee, acc, coll) =>
  * map :: Functor f => (a -> b) - f a -> f b
  */
 export const map = curry2((iteratee, ft) => {
-  let idx = 0;
-  if (isArray(ft)) return reduce((a, v) => {
-    a.push(iteratee(v, idx++, ft));
-    return a;
-  }, [], ft);
-  // plain object, arrayLikeObj, !Set
+  if (isArray(ft)) return ft.map(iteratee);
   if (isPlainObject(ft) || isArrayLike(ft)) return reduce((obj, k) => {
     obj[k] = iteratee(ft[k], k, ft);
     return obj;
