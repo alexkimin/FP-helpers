@@ -29,5 +29,12 @@ describe('iter functions', () => {
       expect(iter.next()).toEqual({ value: 'b', done: false });
       expect(iter.next()).toEqual({ value: undefined, done: true });
     });
+    test('should work as expected', () => {
+      const iter = Iter.keys(testArr);
+      expect(isIterable(iter)).toBe(true);
+      expect(iter.next()).toEqual({ value: 0, done: false });
+      expect(iter.next()).toEqual({ value: 1, done: false });
+      expect(iter.next()).toEqual({ value: undefined, done: true });
+    });
   });
 });

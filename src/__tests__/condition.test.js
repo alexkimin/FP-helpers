@@ -8,8 +8,14 @@ describe('condition functions', () => {
     test('should return true onTure case if the predicate is ture', () => {
       expect(ifElse(() => true, () => 'onTrue', () => 'onFalse')(1)).toBe('onTrue');
     });
-    test('should return true onTure case if the predicate is false', () => {
+    test('should return true onTure case if the predicate is ture', () => {
+      expect(ifElse(() => true, [n => n * 2, n => n * 2], [n => n * 0])(1)).toBe(4);
+    });
+    test('should return true onFalse case if the predicate is false', () => {
       expect(ifElse(() => false, [n => n * 2, n => n * 2], [n => n * 0])(1)).toBe(0);
+    });
+    test('should return true identity case if the predicate is false and no argument', () => {
+      expect(ifElse(() => false, [n => n * 2, n => n * 2])(1)).toBe(1);
     });
     test('should return undefined if the predicate is not a function', () => {
       expect(ifElse(true, () => true, () => true)(1)).toBe(undefined);

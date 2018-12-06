@@ -9,10 +9,17 @@ describe('take functions', () => {
       expect(take(1, testObj)).toEqual([1]);
       expect(take(1, testMap)).toEqual([['a', 1]]);
       expect(take(2, testSet)).toEqual([1, 2]);
+      expect(take(2, undefined)).toEqual([]);
+    });
+    test('should work with iterator that created by generator', () => {
+      expect(take(2, (function* (coll) {
+        for (const v of coll.values()) yield v;
+      }([1, 2, 3])))).toEqual([1, 2]);
     });
     test('should return expected result string', () => {
       expect(take(2, 'hello')).toBe('he');
       expect(take(10, 'hello')).toBe('hello');
+      expect(take(10, '')).toBe('');
     });
   });
   describe('takeAll', () => {

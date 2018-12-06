@@ -6,7 +6,6 @@
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run clean && jest --config config/jest/jest.config.json --coverage",
     "test:open": "open coverage/lcov-report/index.html",
-    "test:badges": "npm run test:coverage && jest-coverage-badges",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix",
     "clean": "rm -rf ./.cache"
@@ -25,8 +24,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.0.0",
-    "jest": "^23.6.0",
-    "jest-coverage-badges": "^1.0.0"
+    "jest": "^23.6.0"
   },
   "dependencies": {}
 }

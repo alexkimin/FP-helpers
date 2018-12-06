@@ -125,6 +125,14 @@ describe('mapper functions', () => {
     test('with arrayLike', () => {
       expect(map(n => n * 2, arrLikeObj)).toEqual({ 0: 2, 1: 4 });
     });
+    test('with function', () => {
+      expect(typeof map(n => n * 2, n => n * 2)).toBe('function');
+      expect(map(n => n * 2, n => n * 2)(2)).toBe(8);
+    });
+    test('with promise', async () => {
+      const result = await map(n => n * 2, new Promise(res => res(2)));
+      expect(result).toBe(4);
+    });
   });
 
   // describe('filter', () => {
