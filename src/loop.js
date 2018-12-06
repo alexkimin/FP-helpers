@@ -49,14 +49,12 @@ export const reduceR = curry2((iteratee, acc, coll) =>
  * map :: Functor f => (a -> b) - f a -> f b
  */
 export const map = curry2((iteratee, ft) => {
-  // Array
   if (isArray(ft)) return reduce((a, v) => {
     a.push(iteratee(v));
     return a;
   }, [], ft);
-  // Function, Promise
-  if (isFunction(ft)) return (...a) => isPromise(ft) ? ft.then(iteratee(...a)) : ft(iteratee(...a));
-  // Map
+  if (isFunction(ft)) return (...a) => iteratee(ft(...a));
+  if (isPromise(ft)) return ft.then(iteratee);
   if (isMap(ft)) return reduce((m, [k, v]) => {
     m.set(k, iteratee(v));
     return m;

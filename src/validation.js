@@ -4,12 +4,10 @@ export const isBool = arg => typeof arg === 'boolean';
 export const isUndefined = arg => arg === undefined;
 export const isNull = arg => arg === null;
 export const isSymbol = arg => typeof arg === 'symbol';
-export const isNaN = n => isNaN(n);
 // {}, [], Map, Set, String, Number ...
 export const isObject = arg => typeof arg === 'object';
 export const isPlainObject = arg => Object.prototype.toString.call(arg) === '[object Object]';
 export const isArray = arg => Array.isArray(arg);
-// Function, Promise
 export const isFunction = fn => typeof fn === 'function';
 export const isPromise = p => p instanceof Promise;
 export const isMap = arg => arg instanceof Map;

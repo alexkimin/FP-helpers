@@ -1,4 +1,4 @@
-import { identity } from './common';
+// import { identity } from './common';
 import { reduce } from './loop';
 
 // pipe :: (((a, b, ..., n) -> o), (o -> p), ..., (y -> z)) -> ((a, b, ..., n) -> z)
