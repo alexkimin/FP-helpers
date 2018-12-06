@@ -1,8 +1,6 @@
 import { pipe } from './composition';
 import { apply } from './apply';
-import {
-  isArray, isString, isMap, isSet, isArrayLike, isObject,
-} from './validation';
+import { isString, isObject, isIterable } from './validation';
 
 // flatten :: [a] -> Number -> [b]
 export const flatten = (arr, depth = 1) => {
@@ -13,12 +11,8 @@ export const flatten = (arr, depth = 1) => {
 // reverse :: Collenction c => c a => [a]
 // reverse :: String => String
 export const reverse = coll => {
-  if (isArray(coll) || isMap(coll) || isSet(coll) || isArrayLike(coll)) return [...coll].reverse();
-  if (isString(coll))
-    return coll
-      .split('')
-      .reverse()
-      .join('');
+  if (isString(coll)) return coll.split('').reverse().join('');
+  if (isIterable(coll)) return [...coll].reverse();
   if (isObject(coll)) return Object.values(coll).reverse();
-  return [];
+  return isString(coll) ? '' : [];
 };
