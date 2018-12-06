@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-import { each, eachR, reduce, map } from '../loop';
+import { each, eachR, reduce, reduceR, map } from '../loop';
 
 describe('mapper functions', () => {
   describe('each', () => {
@@ -64,6 +64,48 @@ describe('mapper functions', () => {
     });
   });
 
+  describe('reduce', () => {
+    test('with array', () => {
+      expect(reduce((a, c) => a + c, testArr)).toBe(3);
+    });
+    test('with object', () => {
+      expect(reduce((acc, cur) => acc + cur, 0, testObj)).toBe(3);
+      expect(
+        reduce(
+          (acc) => {
+            acc.checked = acc.checked ? ++acc.checked : 1;
+            return acc;
+          },
+          {},
+          testObj,
+        ),
+      ).toEqual({ checked: 2 });
+    });
+    test('with Map', () => {
+      expect(reduce((acc, e) => acc + e[1], 0, testMap)).toBe(3);
+    });
+    test('with Set', () => {
+      expect(reduce((acc, val) => acc + val, testSet)).toBe(3);
+    });
+    test('with arrayLike', () => {
+      expect(reduce((acc, val) => acc + val, arrLikeObj)).toBe(3);
+    });
+    test('with string', () => {
+      expect(reduce((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('ale');
+    });
+  });
+  describe('reduceR', () => {
+    test('with array', () => {
+      expect(reduceR((a, c) => {
+        a.push(c);
+        return a;
+      }, [], testArr)).toEqual([2, 1]);
+    });
+    test('with string', () => {
+      expect(reduceR((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('xel');
+    });
+  });
+
   describe('map', () => {
     test('with array', () => {
       expect(map(n => n * 2, testArr)).toEqual([2, 4]);
@@ -118,35 +160,4 @@ describe('mapper functions', () => {
   //     )).toEqual([6]);
   //   });
   // });
-
-  describe('reduce', () => {
-    test('with array', () => {
-      expect(reduce((a, c) => a + c, testArr)).toBe(3);
-    });
-    test('with object', () => {
-      expect(reduce((acc, cur) => acc + cur, 0, testObj)).toBe(3);
-      expect(
-        reduce(
-          (acc) => {
-            acc.checked = acc.checked ? ++acc.checked : 1;
-            return acc;
-          },
-          {},
-          testObj,
-        ),
-      ).toEqual({ checked: 2 });
-    });
-    test('with Map', () => {
-      expect(reduce((acc, e) => acc + e[1], 0, testMap)).toBe(3);
-    });
-    test('with Set', () => {
-      expect(reduce((acc, val) => acc + val, testSet)).toBe(3);
-    });
-    test('with arrayLike', () => {
-      expect(reduce((acc, val) => acc + val, arrLikeObj)).toBe(3);
-    });
-    test('with string', () => {
-      expect(reduce((acc, val) => (acc.length < 3 ? acc + val : acc), 'alex')).toBe('ale');
-    });
-  });
 });

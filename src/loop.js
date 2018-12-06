@@ -36,10 +36,14 @@ export const reduce = curry2((iteratee, acc, coll) => {
   return reduced;
 });
 
-// reduceR :: Collection c => ((a, b) -> b) -> b -> c a -> b
-// export const reduceR = curry2((iteratee, acc, coll) => {
-
-// });
+/**
+ * reduceR :: Collection c => ((a, b) -> a) -> a -> c b -> a
+ * reduceR :: ((a, String) -> a) -> a -> String -> a
+ */
+export const reduceR = curry2((iteratee, acc, coll) =>
+  isUndefined(coll)
+    ? reduce(iteratee, reverse(acc))
+    : reduce(iteratee, acc, reverse(coll)));
 
 /**
  * map :: Functor f => (a -> b) - f a -> f b
