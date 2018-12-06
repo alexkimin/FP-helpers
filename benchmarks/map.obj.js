@@ -3,7 +3,6 @@ const Ramda = require('ramda');
 const _ = require('lodash');
 const { map } = require('../src/loop');
 
-const testArr = [1, 2, 3, 4];
 const testObj = {
   a: 1,
   b: 2,
@@ -18,7 +17,7 @@ suite
   .add('map obj', () => {
     map(fn, testObj);
   })
-  .add('Ramda.map obj', () => {
+  .add('Ramda.mapObjIndexed obj', () => {
     Ramda.mapObjIndexed(fn, testObj);
   })
   .add('_.map obj', () => {

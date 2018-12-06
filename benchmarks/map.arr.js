@@ -4,12 +4,6 @@ const _ = require('lodash');
 const { map } = require('../src/loop');
 
 const testArr = [1, 2, 3, 4];
-const testObj = {
-  a: 1,
-  b: 2,
-  c: 3,
-  d: 4,
-};
 const fn = v => v + 2;
 
 const suite = new Benchmark.Suite();
