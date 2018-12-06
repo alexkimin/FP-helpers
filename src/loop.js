@@ -12,10 +12,11 @@ import { reverse } from './collection';
  * each :: Collection c => (a -> ...) -> c a -> c a
  * each :: (a -> ...) -> String -> String
  */
-export const each = curry2((iteratee, coll) => {
-  pipe(L.loop(iteratee), takeAll)(coll);
-  return coll;
-});
+export const each = curry2((iteratee, coll) => pipe(
+  L.loop(iteratee),
+  takeAll,
+  () => coll,
+)(coll));
 
 /**
  * eachR :: Collection c => (a -> ...) -> c a -> c a
