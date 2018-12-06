@@ -29,6 +29,10 @@
     "no-plusplus": 0,
     "prefer-promise-reject-errors": 0,
     "no-new-wrappers": 0,
-    "no-console": 0
+    "no-console": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-await-in-loop": 0,
+    "import/no-dynamic-require": 0,
+    "global-require": 0
   }
 }
