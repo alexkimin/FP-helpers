@@ -1,6 +1,7 @@
 import {
   identity,
   noop,
+  tap,
 } from '../common';
 
 describe('common functions', () => {
@@ -13,6 +14,14 @@ describe('common functions', () => {
   describe('noop', () => {
     test('should return undefined value', () => {
       expect(noop('hello')).toBe(undefined);
+    });
+  });
+
+  describe('tap', () => {
+    const spy = jest.spyOn(global.console, 'log');
+    test('should return identity value and should run cb', () => {
+      expect(tap(v => console.log(v), 'hello')).toBe('hello');
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
