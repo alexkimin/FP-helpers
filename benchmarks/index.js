@@ -13,7 +13,7 @@ const getBenchmarksToRun = () => {
   }
 
   const argvs = argv.slice(2, argv.length);
-  return allFiles.filter(file => argvs.some(arg => file.includes(arg)));
+  return allFiles.filter(file => argvs.some(arg => file.toLowerCase().includes(arg.toLowerCase())));
 };
 
 async function runBenchmark(filePath) {
