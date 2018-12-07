@@ -61,27 +61,27 @@ export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), take
  * forEach :: Collection c => (a -> ...) -> c a -> c a
  * forEach :: (a -> ...) -> String -> String
  */
-export const forEach = curry2((iteratee, coll) => {
-  if (isArray(coll) || isArrayLike(coll)) {
-    const len = coll.length;
-    let idx = 0;
-    while (idx < len) {
-      iteratee(coll[idx]);
-      idx += 1;
-    }
-  } else {
-    const iter = Iter.values(coll);
-    let cur = iter.next();
-    while (!cur.done) {
-      iteratee(cur.values);
-      cur = iter.next();
-    }
-  }
-  return coll;
-});
+// export const forEach = curry2((iteratee, coll) => {
+//   if (isArray(coll) || isArrayLike(coll)) {
+//     const len = coll.length;
+//     let idx = 0;
+//     while (idx < len) {
+//       iteratee(coll[idx]);
+//       idx += 1;
+//     }
+//   } else {
+//     const iter = Iter.values(coll);
+//     let cur = iter.next();
+//     while (!cur.done) {
+//       iteratee(cur.values);
+//       cur = iter.next();
+//     }
+//   }
+//   return coll;
+// });
 
 // result: slow.
-// export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
+export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
 
 // result: slow.
 // export const forEach = curry2((iteratee, coll) => pipe(
