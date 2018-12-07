@@ -12,19 +12,19 @@ import { reverse } from './collection';
 /**
  * base
  */
-const _runAll = (fn, iterable, coll) => {
-  let cur = iterable.next();
+const _runAll = (fn, iterator, coll) => {
+  let cur = iterator.next();
   let idx = 0;
   while (!cur.done) {
     fn(cur.value, idx++, coll);
-    cur = iterable.next();
+    cur = iterator.next();
   }
 };
-const _runAllwithKeys = (fn, iterable, coll) => {
-  let cur = iterable.next();
+const _runAllWithKeys = (fn, iterator, coll) => {
+  let cur = iterator.next();
   while (!cur.done) {
     fn(coll[cur.value], cur.value, coll);
-    cur = iterable.next();
+    cur = iterator.next();
   }
 };
 
@@ -83,11 +83,13 @@ export const forEach = curry2((iteratee, coll) => {
     return coll;
   }
   if (isPlainObject(coll)) {
-    _runAllwithKeys(iteratee, Iter.keys(coll), coll);
+    _runAllWithKeys(iteratee, Iter.keys(coll), coll);
+    // Object.keys(coll).forEach(key => iteratee(coll[key], key, coll));
     return coll;
   }
   if (isMap(coll)) {
-    return coll.forEach(iteratee);
+    coll.forEach(iteratee);
+    return coll;
   }
   if (isIterable(coll)) _runAll(iteratee, Iter.values(Object(coll)), coll);
   return coll;
