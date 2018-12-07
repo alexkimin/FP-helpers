@@ -9,7 +9,8 @@
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix",
     "clean": "rm -rf ./.cache",
-    "benchmark": "node benchmarks/index.js --all"
+    "benchmark": "node benchmarks/index.js",
+    "benchmark:all": "node benchmarks/index.js --all"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.0",

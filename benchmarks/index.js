@@ -3,23 +3,17 @@ const fs = require('fs');
 const path = require('path');
 const benchmarks = require('beautify-benchmark');
 
-const { map, filter } = require('../src/loop');
-const { compose } = require('../src/composition');
-
-
 const { argv } = process;
 
 const getBenchmarksToRun = () => {
   const allFiles = fs.readdirSync(__dirname);
 
   if (argv.includes('--all') || argv.includes('all')) {
-    return filter(x => x !== 'index.js', allFiles);
+    return allFiles.filter(x => x !== 'index.js');
   }
 
-  return compose(
-    filter(x => allFiles.includes(x)),
-    map(x => `${x}.js`),
-  )(argv.slice(2, argv.length));
+  const argvs = argv.slice(2, argv.length);
+  return allFiles.filter(file => argvs.some(arg => file.includes(arg)));
 };
 
 async function runBenchmark(filePath) {
