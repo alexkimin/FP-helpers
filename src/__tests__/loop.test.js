@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-import { forEach, eachR, reduce, reduceR, map } from '../loop';
+import { forEach, forEachR, reduce, reduceR, map } from '../loop';
 
 describe('mapper functions', () => {
   describe('forEach', () => {
@@ -16,7 +16,7 @@ describe('mapper functions', () => {
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with Map', () => {
-      forEach((e) => sideEffect.push(e[1] * 2), testMap);
+      forEach(v => sideEffect.push(v * 2), testMap);
       expect(sideEffect).toEqual([2, 4]);
     });
     test('with Set', () => {
@@ -33,33 +33,33 @@ describe('mapper functions', () => {
     });
   });
 
-  describe('eachR', () => {
+  describe('forEachR', () => {
     let sideEffect;
     beforeEach(() => {
       sideEffect = [];
     });
     test('with array', () => {
-      eachR(v => sideEffect.push(v * 2), testArr);
+      forEachR(v => sideEffect.push(v * 2), testArr);
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with object', () => {
-      eachR(v => sideEffect.push(v * 2), testObj);
+      forEachR(v => sideEffect.push(v * 2), testObj);
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with Map', () => {
-      eachR((e) => sideEffect.push(e[1] * 2), testMap);
+      forEachR(v => sideEffect.push(v * 2), testMap);
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with Set', () => {
-      eachR(v => sideEffect.push(v * 2), testSet);
+      forEachR(v => sideEffect.push(v * 2), testSet);
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with string', () => {
-      eachR(v => sideEffect.push(v * 2), '12');
+      forEachR(v => sideEffect.push(v * 2), '12');
       expect(sideEffect).toEqual([4, 2]);
     });
     test('with arrayLike', () => {
-      eachR(v => sideEffect.push(v * 2), arrLikeObj);
+      forEachR(v => sideEffect.push(v * 2), arrLikeObj);
       expect(sideEffect).toEqual([4, 2]);
     });
   });

@@ -4,14 +4,29 @@ import { takeAll } from './take';
 import { Iter } from './iter';
 import { L } from './lazy';
 import {
-  isUndefined, isFunction, isArray, isMap, isPromise, isPlainObject, isArrayLike,
+  isUndefined, isFunction, isArray, isMap, isPromise,
+  isPlainObject, isArrayLike, isIterable,
 } from './validation';
 import { reverse } from './collection';
 
 /**
- * Base
+ * base
  */
-
+const _runAll = (fn, iterable, coll) => {
+  let cur = iterable.next();
+  let idx = 0;
+  while (!cur.done) {
+    fn(cur.value, idx++, coll);
+    cur = iterable.next();
+  }
+};
+const _runAllwithKeys = (fn, iterable, coll) => {
+  let cur = iterable.next();
+  while (!cur.done) {
+    fn(coll[cur.value], cur.value, coll);
+    cur = iterable.next();
+  }
+};
 
 /**
  * reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
@@ -38,18 +53,18 @@ export const reduceR = curry2((iteratee, acc, coll) =>
 /**
  * map :: Functor f => (a -> b) - f a -> f b
  */
-export const map = curry2((iteratee, ft) => {
-  if (isArray(ft)) return ft.map(iteratee);
-  if (isPlainObject(ft) || isArrayLike(ft)) return reduce((obj, k) => {
-    obj[k] = iteratee(ft[k], k, ft);
+export const map = curry2((iteratee, functor) => {
+  if (isArray(functor)) return functor.map(iteratee);
+  if (isPlainObject(functor) || isArrayLike(functor)) return reduce((obj, key) => {
+    obj[key] = iteratee(functor[key], key, functor);
     return obj;
-  }, {}, Object.keys(ft));
-  if (isPromise(ft)) return ft.then(iteratee);
-  if (isMap(ft)) return reduce((m, [k, v]) => {
-    m.set(k, iteratee(v, k, ft));
+  }, {}, Object.keys(functor));
+  if (isPromise(functor)) return functor.then(iteratee);
+  if (isMap(functor)) return reduce((m, [key, val]) => {
+    m.set(key, iteratee(val, key, functor));
     return m;
-  }, new Map(), ft);
-  if (isFunction(ft)) return (...a) => iteratee(ft(...a));
+  }, new Map(), functor);
+  if (isFunction(functor)) return (...a) => iteratee(functor(...a));
 });
 
 /**
@@ -61,37 +76,32 @@ export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), take
  * forEach :: Collection c => (a -> ...) -> c a -> c a
  * forEach :: (a -> ...) -> String -> String
  */
-// export const forEach = curry2((iteratee, coll) => {
-//   if (isArray(coll) || isArrayLike(coll)) {
-//     const len = coll.length;
-//     let idx = 0;
-//     while (idx < len) {
-//       iteratee(coll[idx]);
-//       idx += 1;
-//     }
-//   } else {
-//     const iter = Iter.values(coll);
-//     let cur = iter.next();
-//     while (!cur.done) {
-//       iteratee(cur.values);
-//       cur = iter.next();
-//     }
-//   }
-//   return coll;
-// });
+export const forEach = curry2((iteratee, coll) => {
+  if (isArray(coll)) {
+    let idx = -1;
+    while (++idx < coll.length) iteratee(coll[idx], idx, coll);
+    return coll;
+  }
+  if (isPlainObject(coll)) {
+    _runAllwithKeys(iteratee, Iter.keys(coll), coll);
+    return coll;
+  }
+  if (isMap(coll)) {
+    return coll.forEach(iteratee);
+  }
+  if (isIterable(coll)) _runAll(iteratee, Iter.values(Object(coll)), coll);
+  return coll;
+});
 
 // result: slow.
-export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
-
-// result: slow.
-// export const forEach = curry2((iteratee, coll) => pipe(
-//   L.loop(iteratee),
-//   takeAll,
-//   () => coll,
-// )(coll));
+// export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
+// result: very slow.
+// export const forEach = curry2((iteratee, coll) =>
+//   pipe(L.loop(iteratee), takeAll, () => coll)(coll));
 
 /**
  * eachR :: Collection c => (a -> ...) -> c a -> c a
  * eachR :: (a -> ...) -> String -> String
  */
-export const eachR = curry2((iteratee, coll) => forEach(iteratee, reverse(coll)));
+export const forEachR = curry2((iteratee, coll) =>
+  forEach(iteratee, isMap(coll) ? new Map(reverse(coll)) : reverse(coll)));
