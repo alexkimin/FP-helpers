@@ -1,6 +1,8 @@
 .cache
 .vscode
 
+src/__tests__/test.js
+
 # Logs
 logs
 *.log
