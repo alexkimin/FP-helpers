@@ -1,7 +1,7 @@
 const Benchmark = require('benchmark');
-// const Ramda = require('ramda');
+const Ramda = require('ramda');
 const _ = require('lodash');
-const { forEach } = require('../src/loop');
+const { forEach } = require('../loop');
 
 const testObj = {
   a: 1,
@@ -16,6 +16,9 @@ const suite = new Benchmark.Suite();
 suite
   .add('my.forEach obj', () => {
     forEach(fn, testObj);
+  })
+  .add('Ramda.forEachObjIndexed obj', () => {
+    Ramda.forEachObjIndexed(fn)(testObj);
   })
   .add('_.forEach obj', () => {
     _.forEach(fn, testObj);

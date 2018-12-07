@@ -1,7 +1,7 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { map } = require('../src/loop');
+const { map } = require('../loop');
 
 const testArr = [1, 2, 3, 4];
 const fn = v => v + 2;

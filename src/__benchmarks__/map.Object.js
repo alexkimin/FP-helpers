@@ -1,7 +1,7 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { map } = require('../src/loop');
+const { map } = require('../loop');
 
 const testObj = {
   a: 1,
