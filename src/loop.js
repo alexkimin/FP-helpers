@@ -9,20 +9,9 @@ import {
 import { reverse } from './collection';
 
 /**
- * each :: Collection c => (a -> ...) -> c a -> c a
- * each :: (a -> ...) -> String -> String
+ * Base
  */
-export const each = curry2((iteratee, coll) => pipe(
-  L.loop(iteratee),
-  takeAll,
-  () => coll,
-)(coll));
 
-/**
- * eachR :: Collection c => (a -> ...) -> c a -> c a
- * eachR :: (a -> ...) -> String -> String
- */
-export const eachR = curry2((iteratee, coll) => each(iteratee, reverse(coll)));
 
 /**
  * reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
@@ -36,14 +25,6 @@ export const reduce = curry2((iteratee, acc, coll) => {
   }
   return reduced;
 });
-// export const reduce = curry2((iteratee, acc, coll) => {
-//   const iter = Iter.values(isUndefined(coll) ? acc : coll);
-//   let reduced = isUndefined(coll) ? iter.next().value : acc;
-//   for (const value of iter) {
-//     reduced = iteratee(reduced, value);
-//   }
-//   return reduced;
-// });
 
 /**
  * reduceR :: Collection c => ((a, b) -> a) -> a -> c b -> a
@@ -75,3 +56,42 @@ export const map = curry2((iteratee, ft) => {
  * filter:: Filterable f => (a -> Boolean) -> f a -> f a
  */
 export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), takeAll)(coll));
+
+/**
+ * forEach :: Collection c => (a -> ...) -> c a -> c a
+ * forEach :: (a -> ...) -> String -> String
+ */
+export const forEach = curry2((iteratee, coll) => {
+  if (isArray(coll) || isArrayLike(coll)) {
+    const len = coll.length;
+    let idx = 0;
+    while (idx < len) {
+      iteratee(coll[idx]);
+      idx += 1;
+    }
+  } else {
+    const iter = Iter.values(coll);
+    let cur = iter.next();
+    while (!cur.done) {
+      iteratee(cur.values);
+      cur = iter.next();
+    }
+  }
+  return coll;
+});
+
+// result: slow.
+// export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
+
+// result: slow.
+// export const forEach = curry2((iteratee, coll) => pipe(
+//   L.loop(iteratee),
+//   takeAll,
+//   () => coll,
+// )(coll));
+
+/**
+ * eachR :: Collection c => (a -> ...) -> c a -> c a
+ * eachR :: (a -> ...) -> String -> String
+ */
+export const eachR = curry2((iteratee, coll) => forEach(iteratee, reverse(coll)));

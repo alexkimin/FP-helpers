@@ -1,6 +1,6 @@
 import { pipe } from './composition';
 import { apply } from './apply';
-import { isString, isObject, isIterable } from './validation';
+import { isString, isObject, isIterable, isArrayLike } from './validation';
 
 // flatten :: [a] -> Number -> [b]
 export const flatten = (arr, depth = 1) => {
@@ -16,3 +16,9 @@ export const reverse = coll => {
   if (isObject(coll)) return Object.values(coll).reverse();
   return [];
 };
+
+// keys
+export const keys = (coll) =>
+  isArrayLike(coll)
+    ? Object.keys(Object(coll)).filter(key => key !== 'length')
+    : Object.keys(Object(coll));
