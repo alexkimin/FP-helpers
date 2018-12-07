@@ -16,13 +16,13 @@ const suite = new Benchmark.Suite();
 
 suite
   .add('Map.prototype.forEach Map', () => {
-    curry2((m, f) => m.forEach(f))(testMap, fn);
+    curry2((m, f) => m.forEach(f))(testMap)(fn);
   })
   .add('my.forEach Map', () => {
-    forEach(fn, testMap);
+    forEach(fn)(testMap);
   })
   .add('_.forEach Map', () => {
-    _.forEach(fn, testMap);
+    _.forEach(fn)(testMap);
   });
 
 module.exports = suite;

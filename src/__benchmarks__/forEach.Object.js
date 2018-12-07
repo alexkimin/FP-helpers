@@ -15,13 +15,13 @@ const suite = new Benchmark.Suite();
 
 suite
   .add('my.forEach obj', () => {
-    forEach(fn, testObj);
+    forEach(fn)(testObj);
   })
   .add('Ramda.forEachObjIndexed obj', () => {
     Ramda.forEachObjIndexed(fn)(testObj);
   })
   .add('_.forEach obj', () => {
-    _.forEach(fn, testObj);
+    _.forEach(fn)(testObj);
   });
 
 module.exports = suite;

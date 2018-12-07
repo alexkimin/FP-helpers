@@ -1,9 +1,5 @@
 import { isIterable, hasMethod } from './validation';
 
-// todo: check weight of the decision
-// #1 for in + hasOwnProperty : too slow
-// #2 for in : iteration on prototype chain.
-// #3 Object.value: faster than #1 and Object.keys(), but create an array.
 const _iter = {};
 _iter.values = function* (coll) {
   for (const value of Object.values(coll)) yield value;

@@ -43,4 +43,4 @@ export const isFunctor = a => {
   return !isSet(a) && (isObject(a) || isFunction(a));
 };
 
-export const hasMethod = (arg, name) => typeof arg[name] === 'function';
+export const hasMethod = (fn, name) => typeof fn[name] === 'function';

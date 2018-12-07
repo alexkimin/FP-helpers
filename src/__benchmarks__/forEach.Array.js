@@ -11,7 +11,7 @@ const suite = new Benchmark.Suite();
 
 suite
   .add('Array.prototype.forEach array', () => {
-    curry2((arr, f) => arr.forEach(f))(testArr, fn);
+    curry2((f, arr) => arr.forEach(f))(fn)(testArr);
   })
   .add('my.forEach array', () => {
     forEach(fn)(testArr);
