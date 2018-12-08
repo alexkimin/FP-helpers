@@ -1,7 +1,7 @@
 import { pipe } from './composition';
 import { apply } from './apply';
 import { Iter } from './iter';
-import { isString, isObject, isIterable, isArrayLike, isNumber, hasMethod, isPlainObject } from './validation';
+import { isString, isObject, isIterable, isPlainObject } from './validation';
 
 /**
  * flatten :: [a] -> Number -> [b]
