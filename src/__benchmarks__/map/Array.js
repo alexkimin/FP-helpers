@@ -1,8 +1,8 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { map } = require('../loop');
-const { curry2 } = require('../curry');
+const { map } = require('../../loop');
+const { curry2 } = require('../../curry');
 
 const testArr = Array(100000).fill(1);
 const fn = v => v + 2;

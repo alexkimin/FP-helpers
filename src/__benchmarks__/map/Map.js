@@ -1,7 +1,7 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { map } = require('../loop');
+const { map } = require('../../loop');
 
 const testMap = new Map(Array(100000).fill([1, 2]));
 const fn = v => v + 2;

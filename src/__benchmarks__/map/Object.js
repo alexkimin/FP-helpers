@@ -1,7 +1,7 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { map } = require('../loop');
+const { map } = require('../../loop');
 
 const testObj = Array(100000).reduce((a, c, idx) => {
   a[idx] = idx;

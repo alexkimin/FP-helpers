@@ -1,8 +1,8 @@
 const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
-const { reduce } = require('../loop');
-const { curry2 } = require('../curry');
+const { reduce } = require('../../loop');
+const { curry2 } = require('../../curry');
 
 const testObj = Array(100000).reduce((a, c, idx) => {
   a[idx] = idx;
