@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-import { forEach, forEachR, reduce, reduceR, map } from '../loop';
+import { forEach, forEachR, reduce, reduceR, map, filter } from '../loop';
 
 describe('mapper functions', () => {
   describe('forEach', () => {
@@ -135,37 +135,21 @@ describe('mapper functions', () => {
     });
   });
 
-  // describe('filter', () => {
-  //   test('with array', () => {
-  //     expect(filter([1, 2], n => n < 2)).toEqual([1]);
-  //   });
-  //   test('with object', () => {
-  //     expect(filter({ a: 1, b: 2 }, n => n < 2)).toEqual([1]);
-  //   });
-  //   test('with Map', () => {
-  //     const data = new Map();
-  //     data.set('a', 1);
-  //     data.set('b', 2);
-  //     expect(filter(data, n => n < 2)).toEqual([1]);
-  //   });
-  //   test('with Set', () => {
-  //     const data = new Set();
-  //     data.add(1);
-  //     data.add(2);
-  //     expect(filter(data, n => n < 2)).toEqual([1]);
-  //   });
-  //   test('with string', () => {
-  //     expect(filter('12', n => n < 2)).toEqual(['1']);
-  //   });
-  //   test('with arrayLike', () => {
-  //     expect(filter(
-  //       {
-  //         0: 5,
-  //         1: 6,
-  //         length: 2,
-  //       },
-  //       n => n > 5,
-  //     )).toEqual([6]);
-  //   });
-  // });
+  describe('filter', () => {
+    test('with array', () => {
+      expect(filter(n => n < 2, testArr)).toEqual([1]);
+    });
+    test('with object', () => {
+      expect(filter(n => n < 2, testObj)).toEqual({ a: 1 });
+    });
+    test('with Map', () => {
+      expect(filter(n => n < 2, testMap)).toEqual(new Map([['a', 1]]));
+    });
+    test('with Set', () => {
+      expect(filter(n => n < 2, testSet)).toEqual(new Set([1]));
+    });
+    test('with arrayLike', () => {
+      expect(filter(n => n < 2, arrLikeObj)).toEqual({ 0: 1 });
+    });
+  });
 });

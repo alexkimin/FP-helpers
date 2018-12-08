@@ -1,10 +1,7 @@
 import { curry2 } from './curry';
-import { pipe } from './composition';
-import { takeAll } from './take';
 import { Iter } from './iter';
-import { L } from './lazy';
 import {
-  isUndefined, isFunction, isArray, isMap, isPromise,
+  isUndefined, isFunction, isArray, isMap, isSet, isPromise,
   isPlainObject, isArrayLike, isIterable,
 } from './validation';
 import { reverse } from './collection';
@@ -34,6 +31,16 @@ const _map = (iteratee, functor) => {
   const arr = Array(length);
   let idx = -1;
   while (++idx < length) arr[idx] = iteratee(functor[idx], idx, functor);
+  return arr;
+};
+const _filter = (predicate, filterable) => {
+  const { length } = filterable;
+  const arr = [];
+  let idx = -1;
+  let filteredIdx = 0;
+  while (++idx < length)
+    if (predicate(filterable[idx], idx, filterable))
+      arr[idx] = filterable[filteredIdx++];
   return arr;
 };
 
@@ -117,4 +124,19 @@ export const forEachR = curry2((iteratee, coll) =>
 /**
  * filter:: Filterable f => (a -> Boolean) -> f a -> f a
  */
-export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), takeAll)(coll));
+export const filter = curry2((predicate, filterable) => {
+  let idx = 0;
+  if (isArray(filterable)) return _filter(predicate, filterable);
+  if (isPlainObject(filterable) || isArrayLike(filterable)) return reduce((obj, key) => {
+    if (predicate(filterable[key], key, filterable)) obj[key] = filterable[key];
+    return obj;
+  }, {}, Object.keys(filterable));
+  if (isMap(filterable)) return reduce((m, [key, val]) => {
+    if (predicate(val, key, filterable)) m.set(key, val);
+    return m;
+  }, new Map(), filterable);
+  if (isSet(filterable)) return reduce((s, val) => {
+    if (predicate(val, idx++, filterable)) s.add(val);
+    return s;
+  }, new Set(), filterable);
+});
