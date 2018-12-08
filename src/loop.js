@@ -9,6 +9,8 @@ import {
 } from './validation';
 import { reverse } from './collection';
 
+// todo: transducer
+
 /**
  * base
  */
@@ -26,6 +28,13 @@ const _runAllWithKeys = (fn, iterator, coll) => {
     fn(coll[cur.value], cur.value, coll);
     cur = iterator.next();
   }
+};
+const _map = (iteratee, functor) => {
+  const { length } = functor;
+  const arr = Array(length);
+  let idx = -1;
+  while (++idx < length) arr[idx] = iteratee(functor[idx], idx, functor);
+  return arr;
 };
 
 /**
@@ -54,7 +63,8 @@ export const reduceR = curry2((iteratee, acc, coll) =>
  * map :: Functor f => (a -> b) - f a -> f b
  */
 export const map = curry2((iteratee, functor) => {
-  if (isArray(functor)) return functor.map(iteratee);
+  // if (isArray(functor)) return functor.map(iteratee);
+  if (isArray(functor)) return _map(iteratee, functor);
   if (isPlainObject(functor) || isArrayLike(functor)) return reduce((obj, key) => {
     obj[key] = iteratee(functor[key], key, functor);
     return obj;
@@ -68,23 +78,19 @@ export const map = curry2((iteratee, functor) => {
 });
 
 /**
- * filter:: Filterable f => (a -> Boolean) -> f a -> f a
- */
-export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), takeAll)(coll));
-
-/**
  * forEach :: Collection c => (a -> ...) -> c a -> c a
  * forEach :: (a -> ...) -> String -> String
  */
 export const forEach = curry2((iteratee, coll) => {
   if (isArray(coll)) {
+    // coll.forEach(iteratee);
     let idx = -1;
     while (++idx < coll.length) iteratee(coll[idx], idx, coll);
     return coll;
   }
   if (isPlainObject(coll)) {
-    _runAllWithKeys(iteratee, Iter.keys(coll), coll);
     // Object.keys(coll).forEach(key => iteratee(coll[key], key, coll));
+    _runAllWithKeys(iteratee, Iter.keys(coll), coll);
     return coll;
   }
   if (isMap(coll)) {
@@ -107,3 +113,8 @@ export const forEach = curry2((iteratee, coll) => {
  */
 export const forEachR = curry2((iteratee, coll) =>
   forEach(iteratee, isMap(coll) ? new Map(reverse(coll)) : reverse(coll)));
+
+/**
+ * filter:: Filterable f => (a -> Boolean) -> f a -> f a
+ */
+export const filter = curry2((predicate, coll) => pipe(L.filter(predicate), takeAll)(coll));
