@@ -3,12 +3,7 @@ const Ramda = require('ramda');
 const _ = require('lodash');
 const { map } = require('../loop');
 
-const testMap = new Map([
-  [1, 2],
-  [1, 2],
-  [1, 2],
-  [1, 2],
-]);
+const testMap = new Map(Array(100000).fill([1, 2]));
 const fn = v => v + 2;
 
 const suite = new Benchmark.Suite();

@@ -4,7 +4,7 @@ const _ = require('lodash');
 const { forEach } = require('../loop');
 const { curry2 } = require('../curry');
 
-const testArr = [1, 2, 3, 4];
+const testArr = Array(100000).fill(1);
 const fn = v => v + 2;
 
 const suite = new Benchmark.Suite();

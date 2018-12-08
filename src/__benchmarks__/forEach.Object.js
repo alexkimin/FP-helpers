@@ -2,18 +2,21 @@ const Benchmark = require('benchmark');
 const Ramda = require('ramda');
 const _ = require('lodash');
 const { forEach } = require('../loop');
+const { curry2 } = require('../curry');
 
-const testObj = {
-  a: 1,
-  b: 2,
-  c: 3,
-  d: 4,
-};
+
+const testObj = Array(100000).reduce((a, c, idx) => {
+  a[idx] = idx;
+  return a;
+}, {});
 const fn = v => v + 2;
 
 const suite = new Benchmark.Suite();
 
 suite
+  .add('Object.prototype.key and forEach obj', () => {
+    curry2((f, obj) => Object.keys(obj).forEach(f))(fn)(testObj);
+  })
   .add('my.forEach obj', () => {
     forEach(fn)(testObj);
   })
