@@ -1,5 +1,5 @@
 /* eslint no-undef: 0 */
-import { flatten, reverse } from '../collection';
+import { flatten, reverse, keys } from '../collection';
 
 describe('collection functions', () => {
   describe('flatten', () => {
@@ -24,6 +24,18 @@ describe('collection functions', () => {
     });
     test('should return array if the arg is not a collection', () => {
       expect(reverse(12)).toEqual([]);
+    });
+  });
+  describe('keys', () => {
+    test('should return arraylike keys', () => {
+      expect(keys(arrLikeObj)).toEqual(['0', '1']);
+    });
+    test('should return iterable keys', () => {
+      expect(keys(testArr)).toEqual([0, 1]);
+      expect(keys(testMap)).toEqual(['a', 'b']);
+    });
+    test('should return object keys', () => {
+      expect(keys(testObj)).toEqual(['a', 'b']);
     });
   });
 });
