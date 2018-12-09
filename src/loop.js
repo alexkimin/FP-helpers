@@ -6,12 +6,10 @@ import {
 } from './validation';
 import { reverse } from './collection';
 
-// todo: transducer
-
 /**
  * base
  */
-const _runAll = (fn, iterator, coll) => {
+const _each = (fn, iterator, coll) => {
   let cur = iterator.next();
   let idx = 0;
   while (!cur.done) {
@@ -19,7 +17,7 @@ const _runAll = (fn, iterator, coll) => {
     cur = iterator.next();
   }
 };
-const _runAllWithKeys = (fn, iterator, coll) => {
+const _eachWithKeys = (fn, iterator, coll) => {
   let cur = iterator.next();
   while (!cur.done) {
     fn(coll[cur.value], cur.value, coll);
@@ -97,22 +95,16 @@ export const forEach = curry2((iteratee, coll) => {
   }
   if (isPlainObject(coll)) {
     // Object.keys(coll).forEach(key => iteratee(coll[key], key, coll));
-    _runAllWithKeys(iteratee, Iter.keys(coll), coll);
+    _eachWithKeys(iteratee, Iter.keys(coll), coll);
     return coll;
   }
   if (isMap(coll)) {
     coll.forEach(iteratee);
     return coll;
   }
-  if (isIterable(coll)) _runAll(iteratee, Iter.values(Object(coll)), coll);
+  if (isIterable(coll)) _each(iteratee, Iter.values(Object(coll)), coll);
   return coll;
 });
-
-// result: slow.
-// export const forEach = curry2((iteratee, coll) => reduce((a, c) => iteratee(c), null, coll));
-// result: very slow.
-// export const forEach = curry2((iteratee, coll) =>
-//   pipe(L.loop(iteratee), takeAll, () => coll)(coll));
 
 /**
  * eachR :: Collection c => (a -> ...) -> c a -> c a

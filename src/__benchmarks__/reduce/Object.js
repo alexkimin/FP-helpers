@@ -17,7 +17,7 @@ suite
     reduce(fn)(testObj);
   })
   .add('Ramda.reduce obj', () => {
-    Ramda.reduce(fn)(testObj);
+    Ramda.reduce(fn)(0, Object.keys(testObj));
   })
   .add('_.reduce obj', () => {
     curry2((m, f) => _.reduce(m, f))(testObj)(fn);

@@ -12,7 +12,6 @@ export const filterL = curry2(function* (predicate, coll) {
     if (predicate(value)) yield value;
 });
 
-
 export const L = {
   loop: loopL,
   map: loopL,

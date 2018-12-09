@@ -14,7 +14,7 @@ suite
     reduce(fn)(testMap);
   })
   .add('Ramda.reduce Map', () => {
-    Ramda.reduce(fn)(testMap);
+    Ramda.reduce(fn)(0, testMap);
   })
   .add('_.reduce Map', () => {
     curry2((m, f) => _.reduce(m, f))(testMap)(fn);

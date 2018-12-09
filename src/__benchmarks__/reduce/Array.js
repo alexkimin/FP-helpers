@@ -17,7 +17,7 @@ suite
     reduce(fn)(testArr);
   })
   .add('Ramda.reduce array', () => {
-    Ramda.reduce(fn)(testArr);
+    Ramda.reduce(fn)(0, testArr);
   })
   .add('_.reduce array', () => {
     curry2((f, arr) => _.reduce(arr, f))(fn)(testArr);
