@@ -90,13 +90,28 @@ const _xReduceIter = (fx, acc, iter) => {
 //   }
 // });
 export const reduce = curry2((iteratee, acc, coll) => {
-  const iter = Iter.values(isUndefined(coll) ? acc : coll);
+  const collection = isUndefined(coll) ? acc : coll;
+  if (isArray(collection) || isArrayLike(collection)) {
+    iteratee = _tWrap(iteratee);
+    const accum = isUndefined(coll) ? collection[0] : acc;
+    const idx = isUndefined(coll) ? 1 : 0;
+    return _xReduceIndex(iteratee, accum, collection, idx);
+  }
+  const iter = Iter.values(collection);
   let reduced = isUndefined(coll) ? iter.next().value : acc;
   for (const value of iter) {
     reduced = iteratee(reduced, value);
   }
   return reduced;
 });
+// export const reduce = curry2((iteratee, acc, coll) => {
+//   const iter = Iter.values(isUndefined(coll) ? acc : coll);
+//   let reduced = isUndefined(coll) ? iter.next().value : acc;
+//   for (const value of iter) {
+//     reduced = iteratee(reduced, value);
+//   }
+//   return reduced;
+// });
 
 /**
  * reduceR :: Collection c => ((a, b) -> a) -> a -> c b -> a
