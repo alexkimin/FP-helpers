@@ -5,6 +5,7 @@ import {
   isPlainObject, isArrayLike, isIterable,
 } from './validation';
 import { reverse } from './collection';
+import _tWrap from './transducer/xWrap';
 
 /**
  * base
@@ -41,11 +42,53 @@ const _filter = (predicate, filterable) => {
       arr[idx] = filterable[filteredIdx++];
   return arr;
 };
+const _xReduceIndex = (fx, acc, arr, idx) => {
+  const len = arr.length;
+  while (idx < len) {
+    acc = fx['@@transducer/step'](acc, arr[idx++], idx);
+  }
+  return fx['@@transducer/result'](acc);
+};
+const _xReduceKey = (fx, acc, obj, idx, keys) => {
+  const len = keys.length;
+  while (idx < len) {
+    acc = fx['@@transducer/step'](acc, obj[keys[idx]], keys[idx++]);
+  }
+  return fx['@@transducer/result'](acc);
+};
+const _xReduceIter = (fx, acc, iter) => {
+  let cur = iter.next();
+  while (!cur.done) {
+    acc = fx['@@transducer/step'](acc, cur.value);
+    cur = iter.next();
+  }
+  return fx['@@transducer/result'](acc);
+};
 
 /**
  * reduce :: Collection c => ((a, b) -> a) -> a -> c b -> a
  * reduce :: ((a, String) -> a) -> a -> String -> a
  */
+// export const reduce = curry2((iteratee, acc, coll) => {
+//   const collection = isUndefined(coll) ? acc : coll;
+//   iteratee = _tWrap(iteratee);
+//   if (isArray(collection) || isArrayLike(collection)) {
+//     const accum = isUndefined(coll) ? collection[0] : acc;
+//     const idx = isUndefined(coll) ? 1 : 0;
+//     return _xReduceIndex(iteratee, accum, collection, idx);
+//   }
+//   if (isPlainObject(collection)) {
+//     const keys = Object.keys(collection);
+//     const accum = isUndefined(coll) ? collection[keys[0]] : acc;
+//     const idx = isUndefined(coll) ? 1 : 0;
+//     return _xReduceKey(iteratee, accum, collection, idx, keys);
+//   }
+//   if (isIterable(collection)) {
+//     const iter = Iter.values(collection);
+//     const accum = isUndefined(coll) ? iter.next().value : acc;
+//     return _xReduceIter(iteratee, accum, iter);
+//   }
+// });
 export const reduce = curry2((iteratee, acc, coll) => {
   const iter = Iter.values(isUndefined(coll) ? acc : coll);
   let reduced = isUndefined(coll) ? iter.next().value : acc;
@@ -102,7 +145,7 @@ export const forEach = curry2((iteratee, coll) => {
     coll.forEach(iteratee);
     return coll;
   }
-  if (isIterable(coll)) _each(iteratee, Iter.values(Object(coll)), coll);
+  if (isIterable(coll)) _each(iteratee, Iter.values(coll), coll);
   return coll;
 });
 
