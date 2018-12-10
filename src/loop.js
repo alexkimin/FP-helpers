@@ -104,14 +104,6 @@ export const reduce = curry2((iteratee, acc, coll) => {
   }
   return reduced;
 });
-// export const reduce = curry2((iteratee, acc, coll) => {
-//   const iter = Iter.values(isUndefined(coll) ? acc : coll);
-//   let reduced = isUndefined(coll) ? iter.next().value : acc;
-//   for (const value of iter) {
-//     reduced = iteratee(reduced, value);
-//   }
-//   return reduced;
-// });
 
 /**
  * reduceR :: Collection c => ((a, b) -> a) -> a -> c b -> a
