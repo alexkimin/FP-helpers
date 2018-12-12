@@ -9,12 +9,14 @@ export const debounce = (func, wait, immediate) => {
   let lastArgs;
   const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function');
 
-  const later = () => {
+  const _startTimer = (fn, gap) => useRAF
+    ? root.requestAnimationFrame(fn)
+    : setTimeout(fn, gap);
+
+  const _later = () => {
     const last = Date.now() - timestamp;
     if (last < wait && last >= 0) {
-      timeout = useRAF
-        ? root.requestAnimationFrame(later)
-        : setTimeout(later, wait - last);
+      timeout = _startTimer(_later, wait - last);
     } else {
       timeout = undefined;
       if (!immediate) {
@@ -27,11 +29,7 @@ export const debounce = (func, wait, immediate) => {
   const _debounced = (...a) => {
     timestamp = Date.now();
     lastArgs = a;
-    if (!timeout) {
-      timeout = useRAF
-        ? root.requestAnimationFrame(later)
-        : setTimeout(later, wait);
-    }
+    if (!timeout) timeout = _startTimer(_later, wait);
     if (immediate && !timeout) {
       result = func(...lastArgs);
       lastArgs = undefined;
