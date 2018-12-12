@@ -1,30 +1,50 @@
+/* eslint no-undef: 0 */
+/* eslint no-unused-expressions: 0 */
+const root = window || {};
+
 export const debounce = (func, wait, immediate) => {
   let timeout;
   let timestamp;
   let result;
-  let args;
-  const later = (...a1) => {
+  let lastArgs;
+  const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function');
+
+  const later = () => {
     const last = Date.now() - timestamp;
-    args = a1;
     if (last < wait && last >= 0) {
-      timeout = setTimeout(later, wait - last);
+      timeout = useRAF
+        ? root.requestAnimationFrame(later)
+        : setTimeout(later, wait - last);
     } else {
-      timeout = null;
+      timeout = undefined;
       if (!immediate) {
-        result = func(...args);
-        if (!timeout) args = null;
+        result = func(...lastArgs);
+        if (!timeout) lastArgs = undefined;
       }
     }
   };
-  return (...a2) => {
+
+  const _debounced = (...a) => {
     timestamp = Date.now();
-    args = a2;
-    const callNow = immediate && !timeout;
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) {
-      result = func(...args);
-      args = null;
+    lastArgs = a;
+    if (!timeout) {
+      timeout = useRAF
+        ? root.requestAnimationFrame(later)
+        : setTimeout(later, wait);
+    }
+    if (immediate && !timeout) {
+      result = func(...lastArgs);
+      lastArgs = undefined;
     }
     return result;
   };
+
+  _debounced.cancel = () => {
+    if (timestamp !== undefined) {
+      useRAF ? root.cancelAnimationFrame(timeout) : clearTimeout(timeout);
+    }
+    lastArgs = undefined;
+    timestamp = undefined;
+  };
+  return _debounced;
 };
