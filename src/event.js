@@ -1,48 +1,63 @@
 /* eslint no-undef: 0 */
 /* eslint no-unused-expressions: 0 */
-const root = window || {};
 
 export const debounce = (func, wait, immediate) => {
-  let timeout;
+  let timeoutID;
   let timestamp;
   let result;
   let lastArgs;
-  const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function');
+  const useRAF = !wait
+    && typeof requestAnimationFrame === 'function'
+    && typeof cancelAnimationFrame === 'function';
 
   const _startTimer = (fn, gap) => useRAF
-    ? root.requestAnimationFrame(fn)
+    ? requestAnimationFrame(fn)
     : setTimeout(fn, gap);
 
-  const _later = () => {
+  const _laterFn = () => {
     const last = Date.now() - timestamp;
     if (last < wait && last >= 0) {
-      timeout = _startTimer(_later, wait - last);
+      timeoutID = _startTimer(_laterFn, wait - last);
     } else {
-      timeout = undefined;
+      timeoutID = undefined;
       if (!immediate) {
         result = func(...lastArgs);
-        if (!timeout) lastArgs = undefined;
+        if (!timeoutID) lastArgs = undefined;
       }
     }
   };
 
-  const _debounced = (...a) => {
+  const _debounce = (...a) => {
     timestamp = Date.now();
     lastArgs = a;
-    if (!timeout) timeout = _startTimer(_later, wait);
-    if (immediate && !timeout) {
+    if (wait === 0 || !wait) return func(...lastArgs);
+    if (immediate && !timeoutID) {
       result = func(...lastArgs);
       lastArgs = undefined;
     }
+    if (!timeoutID) timeoutID = _startTimer(_laterFn, wait);
     return result;
   };
 
-  _debounced.cancel = () => {
+  _debounce.cancel = () => {
     if (timestamp !== undefined) {
-      useRAF ? root.cancelAnimationFrame(timeout) : clearTimeout(timeout);
+      useRAF ? cancelAnimationFrame(timeoutID) : clearTimeout(timeoutID);
     }
+    timeoutID = undefined;
     lastArgs = undefined;
     timestamp = undefined;
   };
-  return _debounced;
+
+  _debounce.flush = () => {
+    let flushed;
+    if (timestamp !== undefined) {
+      useRAF ? cancelAnimationFrame(timeoutID) : clearTimeout(timeoutID);
+      flushed = func(...lastArgs);
+    }
+    timeoutID = undefined;
+    lastArgs = undefined;
+    timestamp = undefined;
+    return flushed;
+  };
+  return _debounce;
 };
