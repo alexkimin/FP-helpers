@@ -61,3 +61,12 @@ export const debounce = (func, wait, immediate) => {
   };
   return _debounce;
 };
+
+// export const throttle = (func, wait, options) => {
+//   const { leading, trailing } = options;
+//   let lastArgs;
+//   let result;
+//   let timeoutID;
+
+
+// };
