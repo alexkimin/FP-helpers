@@ -31,7 +31,7 @@
     "eslint-plugin-import": "2.14.0",
     "eslint-plugin-jest": "22.0.0",
     "jest": "^24.8.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.19",
     "ramda": "0.26.1"
   },
   "dependencies": {}
